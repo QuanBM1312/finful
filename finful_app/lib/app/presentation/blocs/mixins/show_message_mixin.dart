@@ -1,0 +1,71 @@
+
+import 'dart:io';
+
+import 'package:finful_app/app/constants/key/BlocConstants.dart';
+import 'package:finful_app/app/presentation/blocs/common/show_message/show_message_bloc.dart';
+import 'package:finful_app/app/presentation/blocs/common/show_message/show_message_event.dart';
+import 'package:finful_app/core/bloc/base/bloc_manager.dart';
+import 'package:finful_app/core/exception/api_error.dart';
+import 'package:finful_app/core/exception/api_exception.dart';
+
+mixin ShowMessageBlocMixin {
+  void showSnackBarMessage({
+    ShowMessageSnackBarType type = ShowMessageSnackBarType.info,
+    String? title,
+    String? message,
+  }) {
+    BlocManager().event<ShowMessageBloc>(
+      BlocConstants.showMessage,
+      ShowMessageSnackBarStarted(
+        type: type,
+        title: title,
+        message: message,
+      ),
+    );
+  }
+
+  void handleError(Object? error) {
+    String? title;
+    String? message;
+    switch (error.runtimeType) {
+      case ApiError:
+        title = (error as ApiError).error;
+        message = error.message;
+        break;
+      case UnauthorisedException: //401
+        title = 'common_error_unauthorized';
+        message = 'common_error_unauthorized_message';
+        break;
+      case NotFoundException: //404
+        title = 'common_error_not_found';
+        message = 'common_error_not_found_message';
+        break;
+      case ServerErrorException: // 500
+        title = 'common_error_server_error';
+        message = 'common_error_server_error_message';
+        break;
+      case SocketException:
+        title = 'common_error_no_internet';
+        message = 'common_error_no_internet_message';
+        break;
+      case BadRequestException: //400
+      case ForbiddenException: //403
+      case InvalidInputException:
+      case InvalidResponseException:
+      case UnProcessableEntityException: //422
+      case PayloadTooLargeException: //413
+      case ValidationException: // 409
+      case FetchDataException:
+      case Null:
+      default:
+        title = 'common_error_something_went_wrong';
+        message = 'common_error_something_went_wrong_message';
+        break;
+    }
+    return showSnackBarMessage(
+      type: ShowMessageSnackBarType.error,
+      title: title,
+      message: message,
+    );
+  }
+}
