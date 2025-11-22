@@ -390,6 +390,12 @@ class DashboardNoneFinalPlanContent extends StatelessWidget {
                   final lastIndex = sectionItems.length - 1;
                   return BlocBuilder<GetSectionProgressBloc, GetSectionProgressState>(
                     builder: (_, state) {
+                      if (state is GetSectionProgressGetCurrentInProgress) {
+                        return _SectionItemLoading(
+                          isEnd: index == lastIndex,
+                        );
+                      }
+
                       if (state.currentProgress != null) {
                         return _SectionItemView(
                           isEnd: index == lastIndex,
@@ -405,7 +411,6 @@ class DashboardNoneFinalPlanContent extends StatelessWidget {
                       return _SectionItemLoading(
                         isEnd: index == lastIndex,
                       );
-
 
                     },
                   );

@@ -21,6 +21,7 @@ class GetSectionProgressBloc extends BaseBloc<GetSectionProgressEvent, GetSectio
       : _sectionInteractor = sectionInteractor,
         super(
         key,
+        closeWithBlocKey: BlocConstants.session,
         initialState: GetSectionProgressInitial(
           initCurrentProgress: null,
         ),

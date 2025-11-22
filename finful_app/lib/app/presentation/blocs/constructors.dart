@@ -19,6 +19,7 @@ import 'section/onboarding/onboarding_bloc.dart';
 import 'section/spending/spending_bloc.dart';
 import 'signin/signin_bloc.dart';
 import 'signup/signup_bloc.dart';
+import 'stored_draft/stored_draft_bloc.dart';
 
 final Map<Type, Object Function(Key key)> blocConstructors = {
   LoaderBloc: LoaderBloc.new,
@@ -70,4 +71,5 @@ final Map<Type, Object Function(Key key)> blocConstructors = {
     key,
     sectionInteractor: Injection().getIt<SectionInteractor>(),
   ),
+  StoredDraftBloc: StoredDraftBloc.new,
 };

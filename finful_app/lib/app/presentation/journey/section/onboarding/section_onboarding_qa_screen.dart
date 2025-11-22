@@ -9,6 +9,7 @@ import 'package:finful_app/app/presentation/blocs/mixins/onboarding_bloc_mixin.d
 import 'package:finful_app/app/presentation/blocs/mixins/session_bloc_mixin.dart';
 import 'package:finful_app/app/presentation/blocs/mixins/show_message_mixin.dart';
 import 'package:finful_app/app/presentation/blocs/section/onboarding/onboarding.dart';
+import 'package:finful_app/app/presentation/blocs/stored_draft/stored_draft.dart';
 import 'package:finful_app/app/presentation/journey/section/onboarding/section_onboarding_qa_router.dart';
 import 'package:finful_app/app/presentation/journey/section/onboarding/section_onboarding_screen.dart';
 import 'package:finful_app/app/presentation/widgets/app_button/FinfulButton.dart';
@@ -218,9 +219,21 @@ class _SectionOnboardingQAScreenState extends State<SectionOnboardingQAScreen>
          case (SectionOnboardingEntryFrom.dashboard):
            _handleCreatePlan(state);
            break;
-         default:
-       }
+         case (SectionOnboardingEntryFrom.splash):
+           _handleSaveAnswersToStoreDraft(state);
+           break;
+         }
     }
+  }
+
+  void _handleSaveAnswersToStoreDraft(OnboardingCalculateSuccess state) {
+    final validAnswersFilled = state.sectionOnboardings.toValidAnswersFilled;
+    BlocManager().event<StoredDraftBloc>(
+      BlocConstants.storedDraft,
+      StoredDraftUpdateOnboardingDataStarted(
+        onboardingAnswers: validAnswersFilled,
+      ),
+    );
   }
 
   void _handleCreatePlan(OnboardingCalculateSuccess state) {

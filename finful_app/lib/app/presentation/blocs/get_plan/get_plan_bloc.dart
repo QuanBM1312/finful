@@ -19,6 +19,7 @@ class GetPlanBloc extends BaseBloc<GetPlanEvent, GetPlanState>
       : _planInteractor = planInteractor,
         super(
         key,
+        closeWithBlocKey: BlocConstants.session,
         initialState: GetPlanInitial(
           initPlan: null,
         ),

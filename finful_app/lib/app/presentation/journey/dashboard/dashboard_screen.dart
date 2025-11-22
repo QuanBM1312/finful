@@ -76,6 +76,10 @@ class _DashboardScreenState extends State<DashboardScreen>
     setState(() {
       _sectionItems = _defaultInitSectionItems;
     });
+    _startGetCurrentPlan();
+  }
+
+  void _startGetCurrentPlan() {
     final sessionState = getSessionState;
     final loggedInUser = sessionState.loggedInUser;
     if (loggedInUser != null) {
@@ -156,10 +160,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   void _noneFinalPlanRefresh() {
-    BlocManager().event<GetSectionProgressBloc>(
-      BlocConstants.getSectionProgress,
-      GetSectionProgressGetCurrentStarted(),
-    );
+    _startGetCurrentPlan();
   }
 
   void _finalPlanRefresh() {

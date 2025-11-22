@@ -1,4 +1,3 @@
-
 import 'package:finful_app/app/constants/key/BlocConstants.dart';
 import 'package:finful_app/app/domain/interactor/plan_interactor.dart';
 import 'package:finful_app/app/presentation/blocs/create_plan/create_plan_event.dart';

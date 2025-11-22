@@ -21,6 +21,9 @@ class BlocConstants {
   static const Key sectionAssumptions = Key('section_assumptions_bloc');
   static const Key getSectionProgress = Key('get_section_progress_bloc');
 
+  // draft
+  static const Key storedDraft = Key('stored_draft_bloc');
+
   // plan
   static const Key getPlan = Key('get_plan_bloc');
   static const Key createPlan = Key('create_plan_bloc');

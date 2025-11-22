@@ -1,6 +1,13 @@
-
 import 'package:finful_app/app/constants/route.dart';
+import 'package:finful_app/app/presentation/blocs/common/connectivity/connectivity_bloc.dart';
+import 'package:finful_app/app/presentation/blocs/common/connectivity/connectivity_event.dart';
+import 'package:finful_app/app/presentation/blocs/common/loader/loader_bloc.dart';
+import 'package:finful_app/app/presentation/blocs/common/loader/loader_state.dart';
+import 'package:finful_app/app/presentation/blocs/common/session/session_bloc.dart';
+import 'package:finful_app/app/presentation/blocs/common/session/session_event.dart';
 import 'package:finful_app/app/presentation/blocs/common/show_message/show_message.dart';
+import 'package:finful_app/app/presentation/blocs/stored_draft/stored_draft_bloc.dart';
+import 'package:finful_app/app/presentation/blocs/stored_draft/stored_draft_state.dart';
 import 'package:finful_app/app/presentation/widgets/app_loading/finful_loading.dart';
 import 'package:finful_app/app/presentation/widgets/app_snackbar/finful_snack_bar.dart';
 import 'package:finful_app/app/routes/app_routes.dart';
@@ -10,10 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-import '../../blocs/common/connectivity/connectivity.dart';
-import '../../blocs/common/loader/loader.dart';
-import '../../blocs/common/session/session.dart';
 
 class RootApp extends StatefulWidget {
   const RootApp({super.key});
@@ -67,6 +70,8 @@ class _RootAppState extends State<RootApp> {
           create: (_) => SessionBloc.instance()..add(SessionLoaded())),
       BlocProvider<ShowMessageBloc>(
           create: (_) => ShowMessageBloc.instance()),
+      BlocProvider<StoredDraftBloc>(
+          create: (_) => StoredDraftBloc.instance()),
     ];
   }
 
@@ -103,6 +108,9 @@ class _RootAppState extends State<RootApp> {
                   listeners: [
                     BlocListener<ShowMessageBloc, ShowMessageState>(
                       listener: _showMessageStateListener,
+                    ),
+                    BlocListener<StoredDraftBloc, StoredDraftState>(
+                      listener: (_, state) {},
                     ),
                   ],
                   child: Stack(
