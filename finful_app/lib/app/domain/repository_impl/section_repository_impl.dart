@@ -1,5 +1,6 @@
 import 'package:finful_app/app/data/datasource/remote/section_remote_datasource.dart';
 import 'package:finful_app/app/data/model/request/query_section_request.dart';
+import 'package:finful_app/app/data/model/response/get_section_progress_response.dart';
 import 'package:finful_app/app/data/model/response/section_onboarding_calculate_response.dart';
 import 'package:finful_app/app/data/model/response/section_response.dart';
 import 'package:finful_app/app/data/repository/section_repository.dart';
@@ -30,6 +31,12 @@ class SectionRepositoryImpl implements SectionRepository {
     final response = await _sectionRemoteDatasource.postOnboardingCalculate(
         request: request,
     );
+    return response;
+  }
+
+  @override
+  Future<GetSectionProgressResponse> getCurrentSectionProgress() async {
+    final response = await _sectionRemoteDatasource.getCurrentSectionProgress();
     return response;
   }
 

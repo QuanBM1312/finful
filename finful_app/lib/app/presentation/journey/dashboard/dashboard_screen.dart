@@ -1,20 +1,20 @@
-import 'package:finful_app/app/constants/constants.dart';
 import 'package:finful_app/app/constants/key/BlocConstants.dart';
 import 'package:finful_app/app/data/enum/section.dart';
+import 'package:finful_app/app/domain/model/extension/section_progress_ext.dart';
 import 'package:finful_app/app/presentation/blocs/common/session/session_bloc.dart';
 import 'package:finful_app/app/presentation/blocs/common/session/session_state.dart';
 import 'package:finful_app/app/presentation/blocs/get_plan/get_plan.dart';
+import 'package:finful_app/app/presentation/blocs/get_section_progress/get_section_progress.dart';
 import 'package:finful_app/app/presentation/blocs/mixins/get_plan_bloc_mixin.dart';
 import 'package:finful_app/app/presentation/blocs/mixins/session_bloc_mixin.dart';
 import 'package:finful_app/app/presentation/journey/dashboard/dashboard_router.dart';
 import 'package:finful_app/app/presentation/journey/dashboard/widgets/dashboard_none_final_plan_content.dart';
+import 'package:finful_app/app/utils/utils.dart';
 import 'package:finful_app/core/bloc/base/bloc_manager.dart';
 import 'package:finful_app/core/extension/extension.dart';
-import 'package:finful_app/core/localization/l10n.dart';
 import 'package:finful_app/core/presentation/base_screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'ui_model/section_dashboard_item.dart';
 
 class _TabBarItem {
@@ -43,7 +43,6 @@ class _DashboardScreenState extends State<DashboardScreen>
   final PageController _pageController = PageController(initialPage: 0);
 
   bool _isFinalPlan = false;
-  bool _isSpendingFlowActivated = false;
   List<SectionDashboardItem> _sectionItems = [];
 
   List<SectionDashboardItem> get _defaultInitSectionItems {
@@ -51,33 +50,21 @@ class _DashboardScreenState extends State<DashboardScreen>
       SectionDashboardItem(
         isCompleted: false,
         isActivated: true,
-        bgImage: ImageConstants.imgOnboardingBg,
-        image: ImageConstants.imgDashboardOnboarding,
-        content: L10n.of(context).translate('dashboard_section_onboarding_item_content'),
         sectionType: SectionType.onboarding,
       ),
       SectionDashboardItem(
         isCompleted: false,
         isActivated: true,
-        bgImage: ImageConstants.imgFamilySupportBg,
-        image: ImageConstants.imgFamilySupport,
-        content: L10n.of(context).translate('dashboard_section_familySupport_item_content'),
         sectionType: SectionType.familySupport,
       ),
       SectionDashboardItem(
         isCompleted: false,
         isActivated: true,
-        bgImage: ImageConstants.imgSpendingBg,
-        image: ImageConstants.imgDashboardSpending,
-        content: L10n.of(context).translate('dashboard_section_spending_item_content'),
         sectionType: SectionType.spending,
       ),
       SectionDashboardItem(
         isCompleted: false,
         isActivated: true,
-        bgImage: ImageConstants.imgAssumptionsBg,
-        image: ImageConstants.imgAssumptions,
-        content: L10n.of(context).translate('dashboard_section_assumptions_item_content'),
         sectionType: SectionType.assumptions,
       ),
     ];
@@ -99,58 +86,94 @@ class _DashboardScreenState extends State<DashboardScreen>
     }
   }
 
-  void _processGetCurrentPlanSuccess(GetPlanGetCurrentPlanSuccess state) {
-    final currentPlan = state.currentPlan;
-    final shouldSpendingFlowEnabled = currentPlan != null &&
-        currentPlan.planId.isNotNullAndEmpty;
-    if (shouldSpendingFlowEnabled) {
-      final spendingItem = _sectionItems.firstWhere((e) => e.sectionType == SectionType.spending);
-      final newSpendingItem = SectionDashboardItem(
-        isCompleted: spendingItem.isCompleted,
-        isActivated: shouldSpendingFlowEnabled,
-        bgImage: spendingItem.bgImage,
-        image: spendingItem.image,
-        content: spendingItem.content,
-        sectionType: spendingItem.sectionType,
-      );
-      final tempItems = _sectionItems.where((e) => e.sectionType != spendingItem.sectionType).toList();
-      tempItems.add(newSpendingItem);
-      tempItems.toList();
-      setState(() {
-        _sectionItems = tempItems;
-      });
-
-      if (shouldSpendingFlowEnabled != _isSpendingFlowActivated) {
-        setState(() {
-          _isSpendingFlowActivated = shouldSpendingFlowEnabled;
-        });
-      }
-    }
-  }
-
   void _onSectionItemPressed(SectionDashboardItem item) {
+    final planState = getPlanState;
+    final currentPlan = planState.currentPlan;
+    final currentPlanId = currentPlan?.planId;
     switch (item.sectionType) {
+      case SectionType.onboarding:
+        if (currentPlanId.isNullOrEmpty) {
+          router.gotoOnboarding();
+        }
+        break;
+      case SectionType.familySupport:
+        if (currentPlanId.isNotNullAndEmpty) {
+          router.gotoFamilySupport(
+            planId: currentPlanId!,
+          );
+        }
+        break;
       case SectionType.spending:
-        final planState = getPlanState;
-        final currentPlan = planState.currentPlan;
-        if (currentPlan != null && currentPlan.planId.isNotNullAndEmpty) {
+        if (currentPlanId.isNotNullAndEmpty) {
           router.gotoSpending(
-            planId: currentPlan.planId!,
+            planId: currentPlanId!,
           );
         }
         break;
       case SectionType.assumptions:
-        final planState = getPlanState;
-        final currentPlan = planState.currentPlan;
-        router.gotoAssumptions(
-          planId: "mock",
-        );
+        if (currentPlanId.isNotNullAndEmpty) {
+          router.gotoAssumptions(
+            planId: currentPlanId!,
+          );
+        }
       default:
     }
   }
 
   void _onStaticSchedulePressed() {
 
+  }
+
+  void _handleGetCurrentSectionProgressSuccess(GetSectionProgressGetCurrentSuccess state) {
+    final currentProgress = state.currentProgress;
+    if (currentProgress != null) {
+      final updatedSectionItems = [
+        SectionDashboardItem(
+          isCompleted: currentProgress.isSectionOnboardingCompleted,
+          isActivated: currentProgress.isSectionOnboardingActivated,
+          sectionType: SectionType.onboarding,
+        ),
+        SectionDashboardItem(
+          isCompleted: currentProgress.isSectionFamilySupportCompleted,
+          isActivated: currentProgress.isSectionFamilySupportActivated,
+          sectionType: SectionType.familySupport,
+        ),
+        SectionDashboardItem(
+          isCompleted: currentProgress.isSectionSpendingCompleted,
+          isActivated: currentProgress.isSectionSpendingActivated,
+          sectionType: SectionType.spending,
+        ),
+        SectionDashboardItem(
+          isCompleted: currentProgress.isSectionAssumptionsCompleted,
+          isActivated: currentProgress.isSectionAssumptionsActivated,
+          sectionType: SectionType.assumptions,
+        ),
+      ];
+      setState(() {
+        _sectionItems = updatedSectionItems;
+      });
+    }
+  }
+
+  void _noneFinalPlanRefresh() {
+    BlocManager().event<GetSectionProgressBloc>(
+      BlocConstants.getSectionProgress,
+      GetSectionProgressGetCurrentStarted(),
+    );
+  }
+
+  void _finalPlanRefresh() {
+
+  }
+
+  Future<void> _onRefresh() async {
+    await forceDelay();
+    if (!_isFinalPlan) {
+      _noneFinalPlanRefresh();
+      return;
+    }
+
+    _finalPlanRefresh();
   }
 
   void _sessionBlocListener(BuildContext context, SessionState state) {
@@ -163,9 +186,12 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   void _getPlanBlocListener(BuildContext context, GetPlanState state) {
+  }
+
+  void _getSectionProgressBlocListener(BuildContext context, GetSectionProgressState state) {
     switch (state.runtimeType) {
-      case GetPlanGetCurrentPlanSuccess:
-        _processGetCurrentPlanSuccess(state as GetPlanGetCurrentPlanSuccess);
+      case GetSectionProgressGetCurrentSuccess:
+        _handleGetCurrentSectionProgressSuccess(state as GetSectionProgressGetCurrentSuccess);
         break;
       default:
     }
@@ -179,6 +205,9 @@ class _DashboardScreenState extends State<DashboardScreen>
       BlocListener<GetPlanBloc, GetPlanState>(
         listener: _getPlanBlocListener,
       ),
+      BlocListener<GetSectionProgressBloc, GetSectionProgressState>(
+        listener: _getSectionProgressBlocListener,
+      ),
     ];
   }
 
@@ -188,16 +217,19 @@ class _DashboardScreenState extends State<DashboardScreen>
       listeners: _mapToBlocListeners,
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         drawerEdgeDragWidth: 0.0,
         endDrawerEnableOpenDragGesture: false,
         drawerEnableOpenDragGesture: false,
-        body: !_isFinalPlan ?
-        DashboardNoneFinalPlanContent(
-          sectionItems: _sectionItems,
-          onSectionItemPressed: _onSectionItemPressed,
-          onStaticSchedulePressed: _onStaticSchedulePressed,
-        ) : Container(),
+        body: RefreshIndicator(
+          onRefresh: _onRefresh,
+          child: !_isFinalPlan ?
+          DashboardNoneFinalPlanContent(
+            sectionItems: _sectionItems,
+            onSectionItemPressed: _onSectionItemPressed,
+            onStaticSchedulePressed: _onStaticSchedulePressed,
+          ) : Container(),
+        ),
       ),
     );
   }

@@ -6,12 +6,16 @@ class PatchPlanSectionResultResponse {
   final String? message;
   final String? earliestPurchaseYear;
   final bool? hasWorsened;
+  final String? customMessage; // assumptions
+  final bool? isAffordable; // assumptions
 
   PatchPlanSectionResultResponse({
     this.caseNumber,
     this.message,
     this.earliestPurchaseYear,
     this.hasWorsened,
+    this.isAffordable,
+    this.customMessage,
   });
 
   factory PatchPlanSectionResultResponse.fromJson(Map<String, dynamic> json) {
@@ -20,6 +24,8 @@ class PatchPlanSectionResultResponse {
       message: json['message'] ?? kString,
       earliestPurchaseYear: json['earliestPurchaseYear'] ?? kString,
       hasWorsened: json['hasWorsened'] ?? false,
+      isAffordable: json['isAffordable'] ?? false,
+      customMessage: json['customMessage'] ?? kString,
     );
   }
 }

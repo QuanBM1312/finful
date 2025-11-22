@@ -1,5 +1,6 @@
 import 'package:finful_app/app/data/datasource/remote/section_remote_datasource.dart';
 import 'package:finful_app/app/data/model/request/query_section_request.dart';
+import 'package:finful_app/app/data/model/response/get_section_progress_response.dart';
 import 'package:finful_app/app/data/model/response/section_onboarding_calculate_response.dart';
 import 'package:finful_app/app/data/model/response/section_response.dart';
 import 'package:finful_app/core/datasource/base_remote.dart';
@@ -34,5 +35,13 @@ class SectionRemoteDatasourceImpl extends BaseRemote implements SectionRemoteDat
     final json =
         await post(url, ApiHeaderType.withoutToken, data: requestJson);
     return SectionOnboardingCalculateResponse.fromJson(json);
+  }
+
+  @override
+  Future<GetSectionProgressResponse> getCurrentSectionProgress() async {
+    final url = '$_host/section/progress';
+    final json =
+    await get(url, ApiHeaderType.withToken);
+    return GetSectionProgressResponse.fromJson(json);
   }
 }

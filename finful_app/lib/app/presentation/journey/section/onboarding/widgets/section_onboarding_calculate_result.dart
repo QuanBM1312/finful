@@ -4,6 +4,7 @@ import 'package:finful_app/app/presentation/widgets/app_image/FinfulImage.dart';
 import 'package:finful_app/app/theme/theme.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
 import 'package:finful_app/core/extension/context_extension.dart';
+import 'package:finful_app/core/extension/extension.dart';
 import 'package:finful_app/core/localization/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +44,26 @@ class _LoadingView extends StatelessWidget {
 }
 
 class _PossibleView extends StatelessWidget {
-  const _PossibleView({super.key});
+  const _PossibleView({
+    super.key,
+    required this.year,
+  });
+
+  final int? year;
+
+  String _titleTxt(BuildContext context) {
+    final staticTxt = L10n.of(context)
+        .translate('section_onboarding_calculate_result_title');
+    String yearTxt = "";
+    if (year != null) {
+      yearTxt = year.toString();
+    } else {
+      yearTxt = L10n.of(context)
+          .translate('common_dummy_default_year');
+    }
+
+    return "$staticTxt$yearTxt";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +75,7 @@ class _PossibleView extends StatelessWidget {
         children: [
           const SizedBox(height: Dimens.p_46),
           Text(
-            L10n.of(context)
-                .translate('section_onboarding_calculate_result_title'),
+            _titleTxt(context),
             style: Theme.of(context).textTheme.displaySmall!.copyWith(
               fontWeight: FontWeight.w400,
             ),
@@ -94,7 +113,47 @@ class _PossibleView extends StatelessWidget {
 }
 
 class _Impossible1View extends StatelessWidget {
-  const _Impossible1View({super.key});
+  const _Impossible1View({
+    super.key,
+    required this.year,
+    required this.affordableYear,
+    required this.message,
+  });
+
+  final int? year;
+  final int? affordableYear;
+  final String? message;
+
+  String _titleTxt(BuildContext context) {
+    final staticTxt = L10n.of(context)
+        .translate('section_onboarding_calculate_result_title');
+    String yearTxt = "";
+    if (year != null) {
+      yearTxt = year.toString();
+    } else {
+      yearTxt = L10n.of(context)
+          .translate('common_dummy_default_year');
+    }
+
+    return "$staticTxt$yearTxt";
+  }
+
+  String _subtitleTxt(BuildContext context) {
+    if (message.isNotNullAndEmpty) {
+      return message!;
+    }
+
+    final staticTxt = L10n.of(context)
+        .translate('section_onboarding_calculate_result_possible_future');
+    String yearTxt = "";
+    if (affordableYear != null) {
+      yearTxt = affordableYear.toString();
+    } else {
+      yearTxt = L10n.of(context)
+          .translate('common_dummy_default_year');
+    }
+    return "$staticTxt$yearTxt";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,8 +165,7 @@ class _Impossible1View extends StatelessWidget {
         children: [
           const SizedBox(height: Dimens.p_46),
           Text(
-            L10n.of(context)
-                .translate('section_onboarding_calculate_result_title'),
+            _titleTxt(context),
             style: Theme.of(context).textTheme.displaySmall!.copyWith(
               fontWeight: FontWeight.w400,
             ),
@@ -124,8 +182,7 @@ class _Impossible1View extends StatelessWidget {
           ),
           const SizedBox(height: FinfulDimens.xs),
           Text(
-            L10n.of(context)
-                .translate('section_onboarding_calculate_result_possible_future'),
+            _subtitleTxt(context),
             style: Theme.of(context).textTheme.displaySmall!.copyWith(
               fontWeight: FontWeight.w400,
             ),
@@ -154,7 +211,26 @@ class _Impossible1View extends StatelessWidget {
 }
 
 class _Impossible2View extends StatelessWidget {
-  const _Impossible2View({super.key});
+  const _Impossible2View({
+    super.key,
+    required this.year,
+  });
+
+  final int? year;
+
+  String _titleTxt(BuildContext context) {
+    final staticTxt = L10n.of(context)
+        .translate('section_onboarding_calculate_result_title');
+    String yearTxt = "";
+    if (year != null) {
+      yearTxt = year.toString();
+    } else {
+      yearTxt = L10n.of(context)
+          .translate('common_dummy_default_year');
+    }
+
+    return "$staticTxt$yearTxt";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,8 +242,7 @@ class _Impossible2View extends StatelessWidget {
         children: [
           const SizedBox(height: Dimens.p_46),
           Text(
-            L10n.of(context)
-                .translate('section_onboarding_calculate_result_title'),
+            _titleTxt(context),
             style: Theme.of(context).textTheme.displaySmall!.copyWith(
               fontWeight: FontWeight.w400,
             ),
@@ -217,7 +292,35 @@ class _SectionOnboardingCalculateResultState extends State<SectionOnboardingCalc
     return BlocBuilder<OnboardingBloc, OnboardingState>(
         builder: (_, state) {
           if (state is OnboardingCalculateSuccess) {
-            return _Impossible2View();
+            final caseNumber = state.calculateResult?.caseNumber;
+            final projectionData = state.calculateResult?.projectionData ?? [];
+            int? year;
+            if (projectionData.isNotEmpty) {
+              year = projectionData.first.year;
+            }
+
+            if (caseNumber == null) {
+              return _LoadingView();
+            }
+
+            switch (caseNumber) {
+              case 1:
+                return _PossibleView(
+                  year: year,
+                );
+              case 2:
+                return _Impossible1View(
+                  year: year,
+                  affordableYear: state.calculateResult?.affordableYear,
+                  message: state.calculateResult?.message,
+                );
+              case 3:
+                return _Impossible2View(
+                  year: year,
+                );
+              default:
+                return _LoadingView();
+            }
           }
 
           return _LoadingView();

@@ -1,9 +1,12 @@
 import 'package:finful_app/app/constants/constants.dart';
+import 'package:finful_app/app/data/enum/section.dart';
 import 'package:finful_app/app/domain/model/extension/extension.dart';
 import 'package:finful_app/app/presentation/blocs/common/session/session.dart';
+import 'package:finful_app/app/presentation/blocs/get_section_progress/get_section_progress.dart';
 import 'package:finful_app/app/presentation/journey/dashboard/ui_model/section_dashboard_item.dart';
 import 'package:finful_app/app/presentation/journey/dashboard/widgets/dashboard_static_schedule.dart';
 import 'package:finful_app/app/presentation/widgets/app_image/FinfulImage.dart';
+import 'package:finful_app/app/presentation/widgets/app_loading/finful_skeleton_loading.dart';
 import 'package:finful_app/app/theme/theme.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
 import 'package:finful_app/core/extension/extension.dart';
@@ -117,6 +120,10 @@ class _SectionItemView extends StatelessWidget {
     return L10n.of(context).translate('dashboard_section_inactive_btn_title');
   }
 
+  bool get isDisabledCard {
+    return !isActivated || isCompleted;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -130,12 +137,12 @@ class _SectionItemView extends StatelessWidget {
         right: isEnd ? Dimens.p_18 : Dimens.p_0,
       ),
       child: AbsorbPointer(
-        absorbing: !isActivated,
+        absorbing: isDisabledCard,
         child: InkWell(
           onTap: onPressed,
           borderRadius: cardRadius,
           child: AnimatedOpacity(
-            opacity: !isActivated ? 0.5 : 1.0,
+            opacity: isDisabledCard ? 0.5 : 1.0,
             duration: Duration(milliseconds: 300),
             child: ClipRRect(
               borderRadius: cardRadius,
@@ -216,6 +223,75 @@ class _SectionItemView extends StatelessWidget {
   }
 }
 
+class _SectionItemLoading extends StatelessWidget {
+  const _SectionItemLoading({
+    required this.isEnd,
+  });
+
+  final bool isEnd;
+
+  double get cardWidth => Dimens.p_180 * 1.08;
+  double get cardHeight => Dimens.p_180;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: cardWidth,
+      height: cardHeight,
+      margin: EdgeInsets.only(
+        left: Dimens.p_18,
+        right: isEnd ? Dimens.p_18 : Dimens.p_0,
+      ),
+      child: FinfulSkeletonLoading(
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(Dimens.p_10)),
+          child: Container(
+            decoration: BoxDecoration(
+              color: FinfulColor.blackBaseSkeletonColor,
+              borderRadius: BorderRadius.all(Radius.circular(Dimens.p_10)),
+            ),
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Container(color: Colors.black.withOpacity(0.3)),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: Dimens.p_20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: Dimens.p_44,
+                        height: Dimens.p_44,
+                        color: FinfulColor.blackHighLightSkeletonColor,
+                      ),
+                      SizedBox(height: Dimens.p_11),
+                      Container(
+                        height: Dimens.p_20,
+                        width: Dimens.p_120,
+                        color: FinfulColor.blackHighLightSkeletonColor,
+                      ),
+                      SizedBox(height: Dimens.p_18),
+                      Container(
+                        height: Dimens.p_40,
+                        width: Dimens.p_140,
+                        decoration: BoxDecoration(
+                          color: FinfulColor.blackHighLightSkeletonColor,
+                          borderRadius: BorderRadius.circular(Dimens.p_5),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class DashboardNoneFinalPlanContent extends StatelessWidget {
   const DashboardNoneFinalPlanContent({
     super.key,
@@ -227,6 +303,51 @@ class DashboardNoneFinalPlanContent extends StatelessWidget {
   final List<SectionDashboardItem> sectionItems;
   final VoidCallback onStaticSchedulePressed;
   final Function(SectionDashboardItem item) onSectionItemPressed;
+
+  String _bgImage(SectionDashboardItem item) {
+    switch (item.sectionType) {
+      case SectionType.onboarding:
+        return ImageConstants.imgOnboardingBg;
+      case SectionType.familySupport:
+        return ImageConstants.imgFamilySupportBg;
+      case SectionType.spending:
+        return ImageConstants.imgSpendingBg;
+      case SectionType.assumptions:
+        return ImageConstants.imgAssumptionsBg;
+      default:
+        return ImageConstants.imgOnboardingBg;
+    }
+  }
+
+  String _image(SectionDashboardItem item) {
+    switch (item.sectionType) {
+      case SectionType.onboarding:
+        return ImageConstants.imgDashboardOnboarding;
+      case SectionType.familySupport:
+        return ImageConstants.imgFamilySupport;
+      case SectionType.spending:
+        return ImageConstants.imgDashboardSpending;
+      case SectionType.assumptions:
+        return ImageConstants.imgAssumptions;
+      default:
+        return ImageConstants.imgDashboardOnboarding;
+    }
+  }
+
+  String _contentText(BuildContext context, SectionDashboardItem item) {
+    switch (item.sectionType) {
+      case SectionType.onboarding:
+        return L10n.of(context).translate('dashboard_section_onboarding_item_content');
+      case SectionType.familySupport:
+        return L10n.of(context).translate('dashboard_section_familySupport_item_content');
+      case SectionType.spending:
+        return L10n.of(context).translate('dashboard_section_spending_item_content');
+      case SectionType.assumptions:
+        return L10n.of(context).translate('dashboard_section_assumptions_item_content');
+      default:
+        return L10n.of(context).translate('dashboard_section_onboarding_item_content');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -267,14 +388,26 @@ class DashboardNoneFinalPlanContent extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final itemData = sectionItems[index];
                   final lastIndex = sectionItems.length - 1;
-                  return _SectionItemView(
-                    isEnd: index == lastIndex,
-                    isCompleted: itemData.isCompleted,
-                    isActivated: itemData.isActivated,
-                    bgImage: itemData.bgImage,
-                    image: itemData.image,
-                    content: itemData.content,
-                    onPressed: () => onSectionItemPressed(itemData),
+                  return BlocBuilder<GetSectionProgressBloc, GetSectionProgressState>(
+                    builder: (_, state) {
+                      if (state.currentProgress != null) {
+                        return _SectionItemView(
+                          isEnd: index == lastIndex,
+                          isCompleted: itemData.isCompleted,
+                          isActivated: itemData.isActivated,
+                          bgImage: _bgImage(itemData),
+                          image: _image(itemData),
+                          content: _contentText(context, itemData),
+                          onPressed: () => onSectionItemPressed(itemData),
+                        );
+                      }
+
+                      return _SectionItemLoading(
+                        isEnd: index == lastIndex,
+                      );
+
+
+                    },
                   );
                 },
               ),

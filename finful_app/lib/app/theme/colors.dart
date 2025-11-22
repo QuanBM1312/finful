@@ -105,6 +105,6 @@ class FinfulColor {
   static const Color textFieldBgColor = Color(0xFF1D1E21);
 
   // skeleton
-  static const Color blackBaseSkeletonColor = Color(0x1A000000);
-  static const Color blackHighLightSkeletonColor = Color(0x0D000000);
+  static const Color blackBaseSkeletonColor = Color(0xFF1E1E1E);
+  static const Color blackHighLightSkeletonColor = Color(0xFF333333);
 }

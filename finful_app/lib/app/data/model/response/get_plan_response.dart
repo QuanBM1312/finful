@@ -1,4 +1,3 @@
-
 import 'package:finful_app/core/constant/model_constant.dart';
 
 class GetPlanResponse {

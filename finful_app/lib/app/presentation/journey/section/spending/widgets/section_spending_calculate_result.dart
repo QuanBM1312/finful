@@ -115,7 +115,7 @@ class _SectionSpendingCalculateResultState extends State<SectionSpendingCalculat
     String descTxt = "";
     String finalTxt = "";
     final yearTxt = state.calculateResult?.sectionResult?.earliestPurchaseYear
-      ?? L10n.of(context).translate("section_spending_result_default_year");
+      ?? L10n.of(context).translate("common_dummy_default_year");
     switch (caseNumber) {
       case 1:
         descTxt = L10n.of(context).translate("section_spending_result_case1_desc");

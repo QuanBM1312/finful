@@ -19,6 +19,7 @@ class BlocConstants {
   static const Key sectionFamilySupport = Key('section_family_support_bloc');
   static const Key sectionSpending = Key('section_spending_bloc');
   static const Key sectionAssumptions = Key('section_assumptions_bloc');
+  static const Key getSectionProgress = Key('get_section_progress_bloc');
 
   // plan
   static const Key getPlan = Key('get_plan_bloc');
@@ -26,7 +27,12 @@ class BlocConstants {
 }
 
 class BlocBroadcastEventConstants {
+  // authentication
   static const String justLoggedIn = 'broadcast_just_logged_in';
+
+  // section
+  static const String justGetSectionProgressRequired =
+      'broadcast_just_get_section_progress_required';
 
   // params
   static String userData = 'user_data';

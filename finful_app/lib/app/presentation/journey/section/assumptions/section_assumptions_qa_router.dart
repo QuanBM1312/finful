@@ -1,7 +1,7 @@
 import 'package:finful_app/app/constants/route.dart';
+import 'package:finful_app/app/presentation/journey/dashboard/dashboard_router.dart';
 import 'package:finful_app/app/routes/app_routes.dart';
 import 'package:finful_app/core/presentation/base_router.dart';
-import 'package:flutter/material.dart';
 
 abstract interface class ISectionAssumptionsQARouter {
   void gotoScheduleRequest();
@@ -28,7 +28,8 @@ class SectionAssumptionsQARouter extends BaseRouter implements ISectionAssumptio
 
   @override
   void goBackDashboard() {
-    popUntil(ModalRoute.withName(RouteConstant.dashboard));
+    final router = DashboardRouter();
+    router.startAndRemoveUntil(null);
   }
 
 }

@@ -44,6 +44,7 @@ class SectionOnboardingCalculateResponse extends BaseEntity {
   final int? affordableYear;
   final String? message;
   final List<SectionProjectionDataResponse>? projectionData;
+  final int? caseNumber;
 
   SectionOnboardingCalculateResponse({
     this.success,
@@ -51,6 +52,7 @@ class SectionOnboardingCalculateResponse extends BaseEntity {
     this.affordableYear,
     this.message,
     this.projectionData,
+    this.caseNumber,
   });
 
   factory SectionOnboardingCalculateResponse.fromJson(Map<String, dynamic> json) {
@@ -68,6 +70,7 @@ class SectionOnboardingCalculateResponse extends BaseEntity {
       affordableYear: json['affordableYear'] ?? kInt,
       projectionData: projectionData,
       message: json['message'] ?? kString,
+      caseNumber: json['"caseNumber"'] ?? kInt,
     );
   }
 
@@ -77,6 +80,7 @@ class SectionOnboardingCalculateResponse extends BaseEntity {
     affordableYear,
     projectionData,
     message,
+    caseNumber,
   ];
 
   @override

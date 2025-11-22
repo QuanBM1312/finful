@@ -1,4 +1,3 @@
-
 import 'package:finful_app/app/constants/icons.dart';
 import 'package:finful_app/app/constants/images.dart';
 import 'package:finful_app/app/presentation/journey/section/family_support/section_family_support_router.dart';
@@ -132,11 +131,13 @@ class _SectionFamilySupportScreenState extends State<SectionFamilySupportScreen>
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        FinfulImage(
-          type: FinfulImageType.asset,
-          source: ImageConstants.imgFamilySupportBg,
-          width: double.infinity,
-          height: double.infinity,
+        Positioned.fill(
+          child: FinfulImage(
+            type: FinfulImageType.asset,
+            source: ImageConstants.imgFamilySupportBg,
+            width: double.infinity,
+            height: double.infinity,
+          ),
         ),
         Positioned.fill(
           child: Scaffold(

@@ -1,4 +1,3 @@
-
 import 'package:finful_app/app/domain/model/section_model.dart';
 
 abstract class CreatePlanEvent {

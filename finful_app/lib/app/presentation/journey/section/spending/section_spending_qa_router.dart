@@ -1,8 +1,8 @@
 import 'package:finful_app/app/constants/route.dart';
 import 'package:finful_app/app/domain/model/section_model.dart';
+import 'package:finful_app/app/presentation/journey/dashboard/dashboard_router.dart';
 import 'package:finful_app/app/routes/app_routes.dart';
 import 'package:finful_app/core/presentation/base_router.dart';
-import 'package:flutter/material.dart';
 
 abstract interface class ISectionSpendingQARouter {
   void goBackDashboard();
@@ -24,7 +24,8 @@ class SectionSpendingQARouter extends BaseRouter implements ISectionSpendingQARo
 
   @override
   void goBackDashboard() {
-    popUntil(ModalRoute.withName(RouteConstant.dashboard));
+    final router = DashboardRouter();
+    router.startAndRemoveUntil(null);
   }
 
 }

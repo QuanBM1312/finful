@@ -1,6 +1,9 @@
+import 'package:finful_app/app/constants/key/BlocConstants.dart';
 import 'package:finful_app/app/constants/route.dart';
+import 'package:finful_app/app/presentation/blocs/common/session/session.dart';
 import 'package:finful_app/app/presentation/blocs/create_plan/create_plan.dart';
 import 'package:finful_app/app/presentation/blocs/get_plan/get_plan.dart';
+import 'package:finful_app/app/presentation/blocs/get_section_progress/get_section_progress_bloc.dart';
 import 'package:finful_app/app/presentation/blocs/section/assumptions/assumptions_bloc.dart';
 import 'package:finful_app/app/presentation/blocs/section/family_support/family_support_bloc.dart';
 import 'package:finful_app/app/presentation/blocs/section/onboarding/onboarding.dart';
@@ -20,6 +23,7 @@ import 'package:finful_app/app/presentation/journey/section/spending/section_spe
 import 'package:finful_app/app/presentation/journey/section/spending/section_spending_screen.dart';
 import 'package:finful_app/app/presentation/journey/splash/splash_router.dart';
 import 'package:finful_app/app/presentation/journey/splash/splash_screen.dart';
+import 'package:finful_app/core/bloc/base/bloc_manager.dart';
 import 'package:finful_app/core/extension/widget_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -91,6 +95,9 @@ class AppRoutes {
             providers: [
               BlocProvider<GetPlanBloc>(
                 create: (_) => GetPlanBloc.instance(),
+              ),
+              BlocProvider<GetSectionProgressBloc>(
+                create: (_) => GetSectionProgressBloc.instance(),
               ),
             ],
             child: const DashboardScreen()
