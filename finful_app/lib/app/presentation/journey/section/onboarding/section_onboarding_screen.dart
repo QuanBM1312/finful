@@ -198,7 +198,11 @@ class _SectionOnboardingScreenState extends State<SectionOnboardingScreen>
 
   bool get showAppBar {
     bool canPop = Navigator.canPop(context);
-    return router.entryFrom == SectionOnboardingEntryFrom.splash && canPop;
+    return router.entryFrom == SectionOnboardingEntryFrom.dashboard && canPop;
+  }
+
+  bool get showSignUpFlowBtn {
+    return router.entryFrom == SectionOnboardingEntryFrom.splash;
   }
 
   @override
@@ -246,13 +250,19 @@ class _SectionOnboardingScreenState extends State<SectionOnboardingScreen>
                       .translate('section_onboarding_start_btn'),
                   onPressed: _onStartFlowPressed,
                 ),
-                SizedBox(height: FinfulDimens.xs),
-                FinfulButton.border(
-                  title: L10n.of(context)
-                      .translate('common_cta_signin'),
-                  borderColor: FinfulColor.white,
-                  isBare: true,
-                  onPressed: _onLoginPressed,
+                if (showSignUpFlowBtn)
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: FinfulDimens.xs,
+                    bottom: FinfulDimens.xs,
+                  ),
+                  child: FinfulButton.border(
+                    title: L10n.of(context)
+                        .translate('common_cta_signin'),
+                    borderColor: FinfulColor.white,
+                    isBare: true,
+                    onPressed: _onLoginPressed,
+                  ),
                 ),
               ],
             ),

@@ -104,5 +104,7 @@
   "dashboard_section_assumptions_item_content": "Giả định & Chiến lược",
   "dashboard_section_completed_btn_title": "✅ Đã hoàn thành",
   "dashboard_section_start_btn_title": "⏳ Bắt đầu",
-  "dashboard_section_inactive_btn_title": "⏳ Chưa mở khóa"
+  "dashboard_section_inactive_btn_title": "⏳ Chưa mở khóa",
+  "received_request_title": "Chúng tôi đã nhận được thông tin của bạn!",
+  "received_request_desc": "Các chuyên gia sẽ liên hệ với bạn trong thời gian sớm nhất"
 }

@@ -4,7 +4,7 @@ import 'package:finful_app/app/data/enum/section.dart';
 class PlanSectionResultModel extends Equatable {
   final int? caseNumber;
   final String? message;
-  final String? earliestPurchaseYear;
+  final int? earliestPurchaseYear;
 
   const PlanSectionResultModel({
     this.caseNumber,

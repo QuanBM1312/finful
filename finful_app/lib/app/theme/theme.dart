@@ -100,7 +100,7 @@ class FinfulTheme {
     ),
     displayMedium: TextStyle(
       fontSize: Dimens.p_22,
-      height: Dimens.p_22 / Dimens.p_22,
+      height: Dimens.p_28 / Dimens.p_22,
       fontWeight: FontWeight.w600,
       color: FinfulColor.textW,
       fontFamily: _kFontFamily,

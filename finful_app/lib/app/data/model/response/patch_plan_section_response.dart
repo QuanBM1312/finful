@@ -4,10 +4,11 @@ import 'get_plan_response.dart';
 class PatchPlanSectionResultResponse {
   final int? caseNumber;
   final String? message;
-  final String? earliestPurchaseYear;
+  final int? earliestPurchaseYear;
   final bool? hasWorsened;
   final String? customMessage; // assumptions
   final bool? isAffordable; // assumptions
+  final bool? hasImproved; // familySupport
 
   PatchPlanSectionResultResponse({
     this.caseNumber,
@@ -16,16 +17,18 @@ class PatchPlanSectionResultResponse {
     this.hasWorsened,
     this.isAffordable,
     this.customMessage,
+    this.hasImproved,
   });
 
   factory PatchPlanSectionResultResponse.fromJson(Map<String, dynamic> json) {
     return PatchPlanSectionResultResponse(
       caseNumber: json['caseNumber'] ?? kInt,
       message: json['message'] ?? kString,
-      earliestPurchaseYear: json['earliestPurchaseYear'] ?? kString,
+      earliestPurchaseYear: json['earliestPurchaseYear'] ?? kInt,
       hasWorsened: json['hasWorsened'] ?? false,
       isAffordable: json['isAffordable'] ?? false,
       customMessage: json['customMessage'] ?? kString,
+      hasImproved: json['hasImproved'] ?? false,
     );
   }
 }

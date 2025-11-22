@@ -45,6 +45,7 @@ class PlanRemoteDatasourceImpl extends BaseRemote implements PlanRemoteDatasourc
     final url = '$_host/plans/$planId/section';
     final json =
     await patch(url, ApiHeaderType.withToken, data: request.toJson());
+
     return PatchPlanSectionResponse.fromJson(json);
   }
 

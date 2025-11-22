@@ -35,4 +35,7 @@ class ImageConstants {
   static const String imgSchedule = 'assets/images/img_schedule.png';
   static const String imgDashboardOnboarding = 'assets/images/img_dashboard_onboarding.png';
   static const String imgDashboardSpending = 'assets/images/img_dashboard_spending.png';
+
+  // received request
+  static const String imgReceivedRequest = 'assets/images/img_received_request.png';
 }

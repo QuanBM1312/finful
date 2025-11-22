@@ -13,6 +13,7 @@ import 'package:finful_app/app/presentation/journey/authentication/sign_in_scree
 import 'package:finful_app/app/presentation/journey/authentication/signup_intro_screen.dart';
 import 'package:finful_app/app/presentation/journey/dashboard/dashboard_screen.dart';
 import 'package:finful_app/app/presentation/journey/dev_mode_screen.dart';
+import 'package:finful_app/app/presentation/journey/received_request/received_request_screen.dart';
 import 'package:finful_app/app/presentation/journey/section/assumptions/section_assumptions_qa_screen.dart';
 import 'package:finful_app/app/presentation/journey/section/assumptions/section_assumptions_screen.dart';
 import 'package:finful_app/app/presentation/journey/section/family_support/section_family_support_qa_screen.dart';
@@ -90,6 +91,8 @@ class AppRoutes {
           create: (_) => AssumptionsBloc.instance(),
           child: const SectionAssumptionsQAScreen(),
         ).buildPage(settings: settings);
+      case RouteConstant.receivedRequest:
+        return const ReceivedRequestScreen().buildPage(settings: settings);
       case RouteConstant.dashboard:
         return MultiBlocProvider(
             providers: [

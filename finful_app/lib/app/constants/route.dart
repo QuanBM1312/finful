@@ -21,6 +21,9 @@ class RouteConstant {
   static const String sectionAssumptions = '/sectionAssumptions';
   static const String sectionAssumptionsQA = '/sectionAssumptions/questionAnswer';
 
+  // received request
+  static const String receivedRequest = '/receivedRequest';
+
   // dashboard
   static const String dashboard = '/dashboard';
 }

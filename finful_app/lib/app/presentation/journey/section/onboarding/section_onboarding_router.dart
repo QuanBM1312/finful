@@ -1,4 +1,3 @@
-
 import 'package:finful_app/app/constants/route.dart';
 import 'package:finful_app/app/presentation/journey/authentication/sign_in_router.dart';
 import 'package:finful_app/app/presentation/journey/section/onboarding/section_onboarding_qa_router.dart';
