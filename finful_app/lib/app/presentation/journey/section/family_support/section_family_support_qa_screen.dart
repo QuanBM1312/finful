@@ -330,6 +330,10 @@ with BaseScreenMixin<SectionFamilySupportQAScreen, SectionFamilySupportQARouter>
                         final questionKey = currentSection.section.payload?.key;
                         final unit = currentSection.section.payload?.unit;
 
+                        if (state is FamilySupportSubmitAnswerInProgress) {
+                          return const SizedBox();
+                        }
+
                         if (currentStep == totalStep) {
                           return Padding(
                             padding: EdgeInsets.symmetric(

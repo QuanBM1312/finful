@@ -4,8 +4,8 @@ import 'package:finful_app/core/extension/context_extension.dart';
 import 'package:finful_app/core/localization/l10n.dart';
 import 'package:flutter/material.dart';
 
-class SectionQaContentLoading extends StatelessWidget {
-  const SectionQaContentLoading({super.key});
+class SectionFamilySupportQaSubmitResult extends StatelessWidget {
+  const SectionFamilySupportQaSubmitResult({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class SectionQaContentLoading extends StatelessWidget {
         const SizedBox(height: Dimens.p_60),
         Text(
           L10n.of(context)
-              .translate('section_qa_content_loading'),
+              .translate('section_familySupport_result_submitting'),
           style: Theme.of(context).textTheme.displaySmall!.copyWith(
             fontWeight: FontWeight.w400,
           ),

@@ -5,16 +5,15 @@ import 'package:finful_app/app/domain/model/section_model.dart';
 import 'package:finful_app/app/presentation/blocs/section/assumptions/assumptions.dart';
 import 'package:finful_app/app/presentation/journey/section/assumptions/widgets/section_assumptions_option_card.dart';
 import 'package:finful_app/app/presentation/widgets/app_image/FinfulImage.dart';
+import 'package:finful_app/app/presentation/widgets/section/section_options_wrapper.dart';
 import 'package:finful_app/app/presentation/widgets/section/section_qa_content_loading.dart';
 import 'package:finful_app/app/presentation/widgets/section/section_question_text.dart';
 import 'package:finful_app/app/theme/colors.dart';
 import 'package:finful_app/app/theme/dimens.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
 import 'package:finful_app/core/extension/extension.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'section_assumptions_calculate_result.dart';
 
 class SectionAssumptionsQAContent extends StatelessWidget {
@@ -233,24 +232,29 @@ class SectionAssumptionsQAContent extends StatelessWidget {
           ),
           const SizedBox(height: Dimens.p_10),
           if (listOption.isNotEmpty)
-            Column(
-              children: listOption.map((option) {
+            SectionOptionsWrapper(
+              itemCount: listOption.length,
+              itemBuilder: (context, index, animation) {
+                final option = listOption[index];
                 final isSelected = radioValueSelected != null &&
                     radioValueSelected!.value == option.value;
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: Dimens.p_12),
-                  child: SectionAssumptionsOptionCard(
-                    headerTitle: option.title ?? "",
-                    leftTitle: option.targetReturn ?? "",
-                    rightLabel: option.sub ?? "",
-                    rightTitle: option.description ?? "",
-                    isSelected: isSelected,
-                    onPressed: () {
-                      onRadioValueChanged.call(option);
-                    },
+                return SectionOptionWrapperItem(
+                  animation: animation,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: Dimens.p_12),
+                    child: SectionAssumptionsOptionCard(
+                      headerTitle: option.title ?? "",
+                      leftTitle: option.targetReturn ?? "",
+                      rightLabel: option.sub ?? "",
+                      rightTitle: option.description ?? "",
+                      isSelected: isSelected,
+                      onPressed: () {
+                        onRadioValueChanged.call(option);
+                      },
+                    ),
                   ),
                 );
-              }).toList(),
+              },
             ) else const SizedBox(),
         ],
       ),

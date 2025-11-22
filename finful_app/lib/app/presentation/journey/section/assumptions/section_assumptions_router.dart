@@ -1,4 +1,3 @@
-
 import 'package:finful_app/app/constants/route.dart';
 import 'package:finful_app/app/routes/app_routes.dart';
 import 'package:finful_app/core/presentation/base_router.dart';

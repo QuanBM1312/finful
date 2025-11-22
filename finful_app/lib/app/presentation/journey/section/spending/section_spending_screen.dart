@@ -117,7 +117,11 @@ class _SectionSpendingScreenState extends State<SectionSpendingScreen>
     with BaseScreenMixin<SectionSpendingScreen, SectionSpendingRouter> {
 
   void _onBackPressed() {
-    router.pop();
+    if (router.entryFrom == SectionSpendingEntryFrom.familySupport) {
+      router.goBackDashboard();
+    } else if (router.entryFrom == SectionSpendingEntryFrom.dashboard) {
+      router.pop();
+    }
   }
 
   void _onStartFlowPressed() {

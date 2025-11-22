@@ -7,6 +7,7 @@ import 'package:finful_app/app/presentation/blocs/section/onboarding/onboarding.
 import 'package:finful_app/app/presentation/widgets/app_image/FinfulImage.dart';
 import 'package:finful_app/app/presentation/widgets/app_input/FinfulTextInput.dart';
 import 'package:finful_app/app/presentation/widgets/section/section_option_card.dart';
+import 'package:finful_app/app/presentation/widgets/section/section_options_wrapper.dart';
 import 'package:finful_app/app/presentation/widgets/section/section_qa_content_loading.dart';
 import 'package:finful_app/app/presentation/widgets/section/section_question_text.dart';
 import 'package:finful_app/app/theme/theme.dart';
@@ -128,22 +129,27 @@ class SectionOnboardingQAContent extends StatelessWidget {
           ),
           const SizedBox(height: Dimens.p_25),
           if (listOption.isNotEmpty)
-            Column(
-              children: listOption.map((option) {
+            SectionOptionsWrapper(
+              itemCount: listOption.length,
+              itemBuilder: (context, index, animation) {
                 final answer = data.answerFilled?.answer;
+                final option = listOption[index];
                 final isSelected = answer != null && option.value == answer;
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: Dimens.p_12),
-                  child: SectionOptionCard(
-                    title: option.label ?? "",
-                    isSelected: isSelected,
-                    onPressed: () {
-                      final questionKey = data.section.payload?.key;
-                      _onAnswerSelected(questionKey, option);
-                    },
+                return SectionOptionWrapperItem(
+                  animation: animation,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: Dimens.p_12),
+                    child: SectionOptionCard(
+                      title: option.label ?? "",
+                      isSelected: isSelected,
+                      onPressed: () {
+                        final questionKey = data.section.payload?.key;
+                        _onAnswerSelected(questionKey, option);
+                      },
+                    ),
                   ),
                 );
-              }).toList(),
+              },
             ) else const SizedBox(),
         ],
       ),

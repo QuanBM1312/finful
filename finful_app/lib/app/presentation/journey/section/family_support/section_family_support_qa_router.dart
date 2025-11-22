@@ -25,6 +25,7 @@ class SectionFamilySupportQARouter extends BaseRouter implements ISectionFamilyS
     required List<SectionAnswerModel> familySupportAnswersFilled,
   }) {
     final router = SectionSpendingRouter(
+      entryFrom: SectionSpendingEntryFrom.familySupport,
       planId: planId,
       familySupportAnswersFilled: familySupportAnswersFilled,
     );

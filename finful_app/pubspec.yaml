@@ -49,7 +49,7 @@ dependencies:
   flutter_svg: ^2.2.1
   lottie: ^3.3.2
   rive: ^0.13.20
-  visibility_detector: ^0.3.3
+  visibility_detector: ^0.4.0+2
   dotted_line: ^3.2.3
   sliver_tools: ^0.2.12
   scroll_to_index: ^3.0.1
@@ -60,6 +60,7 @@ dependencies:
   extended_image: ^10.0.1
   vector_graphics_compiler: ^1.1.19
   pretty_animated_text: ^2.0.0
+  auto_animated: ^3.2.0
 
 dev_dependencies:
   flutter_test:

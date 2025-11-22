@@ -1,4 +1,3 @@
-
 import 'package:finful_app/app/constants/route.dart';
 import 'package:finful_app/app/presentation/journey/authentication/sign_in_router.dart';
 import 'package:finful_app/app/presentation/journey/section/assumptions/section_assumptions_router.dart';
@@ -46,6 +45,7 @@ class DashboardRouter extends BaseRouter implements IDashboardRouter {
     required String planId,
   }) {
     final router = SectionSpendingRouter(
+      entryFrom: SectionSpendingEntryFrom.dashboard,
       planId: planId,
       familySupportAnswersFilled: [],
     );
