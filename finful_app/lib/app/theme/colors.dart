@@ -107,4 +107,7 @@ class FinfulColor {
   // skeleton
   static const Color blackBaseSkeletonColor = Color(0xFF1E1E1E);
   static const Color blackHighLightSkeletonColor = Color(0xFF333333);
+
+  // chart
+  static final Color dotGlowLayer1 = brandPrimary.withValues(alpha: 0.25);
 }

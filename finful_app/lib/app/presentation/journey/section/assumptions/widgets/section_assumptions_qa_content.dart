@@ -12,8 +12,10 @@ import 'package:finful_app/app/theme/colors.dart';
 import 'package:finful_app/app/theme/dimens.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
 import 'package:finful_app/core/extension/extension.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'charts/section_assumptions_linechart1.dart';
 import 'section_assumptions_calculate_result.dart';
 
 class SectionAssumptionsQAContent extends StatelessWidget {
@@ -35,6 +37,14 @@ class SectionAssumptionsQAContent extends StatelessWidget {
     if (diff <= 1) return null;
     return diff.toInt();
   }
+
+  List<FlSpot> get allSpots => const [
+    FlSpot(0, 38000000),  // năm ngoái
+    FlSpot(1, 40000000),  // năm nay
+    FlSpot(2, 42800000),  // +1
+    FlSpot(3, 45500000),  // +2
+    FlSpot(4, 49000000),  // +3
+  ];
 
   Widget _renderSliderContent(BuildContext context, SectionModel data) {
     final questionTxt = data.section.payload?.label ?? "";
@@ -97,6 +107,9 @@ class SectionAssumptionsQAContent extends StatelessWidget {
           ),
           const SizedBox(height: Dimens.p_34),
           // todo: chart
+          SectionAssumptionsLineChart1(
+            spots: allSpots,
+          ),
           const SizedBox(height: Dimens.p_40),
           if (listExplanations.isNotEmpty)
             Column(

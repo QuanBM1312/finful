@@ -42,22 +42,18 @@ class _SplashScreenState extends State<SplashScreen>
           _processGotoSignIn();
         }
       },
-      child: SafeArea(
-        top: false,
-        bottom: false,
-        child: PopScope(
-          canPop: false,
-          child: Scaffold(
-            body: Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: FinfulColor.brandPrimary,
-              child: const Center(
-                child: AppSvgIcon(
-                  IconConstants.icEmail,
-                  width: Dimens.p_194,
-                  height: Dimens.p_198,
-                ),
+      child: PopScope(
+        canPop: false,
+        child: Scaffold(
+          body: Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: FinfulColor.brandPrimary,
+            child: const Center(
+              child: AppSvgIcon(
+                IconConstants.icEmail,
+                width: Dimens.p_194,
+                height: Dimens.p_198,
               ),
             ),
           ),

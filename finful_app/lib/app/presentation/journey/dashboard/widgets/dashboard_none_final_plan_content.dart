@@ -351,90 +351,90 @@ class DashboardNoneFinalPlanContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: CustomScrollView(
-        slivers: [
-          SliverPadding(
-            padding: EdgeInsets.only(
-              top: Dimens.p_14,
-              left: FinfulDimens.md,
-              right: FinfulDimens.md,
-            ),
-            sliver: SliverToBoxAdapter(
-              child: _HeaderView(),
-            ),
+    return CustomScrollView(
+      slivers: [
+        SliverPadding(
+          padding: EdgeInsets.only(
+            top: Dimens.p_14 + context.queryPaddingTop,
+            left: FinfulDimens.md,
+            right: FinfulDimens.md,
           ),
-          SliverPadding(
-            padding: EdgeInsets.only(
-              left: FinfulDimens.md,
-              right: FinfulDimens.md,
-            ),
-            sliver: SliverToBoxAdapter(
-              child: _SubHeaderView(),
-            ),
+          sliver: SliverToBoxAdapter(
+            child: _HeaderView(),
           ),
-          SliverToBoxAdapter(
-            child: const SizedBox(height: Dimens.p_40),
+        ),
+        SliverPadding(
+          padding: EdgeInsets.only(
+            left: FinfulDimens.md,
+            right: FinfulDimens.md,
           ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              width: double.infinity,
-              height: Dimens.p_180,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                itemCount: sectionItems.length,
-                itemBuilder: (context, index) {
-                  final itemData = sectionItems[index];
-                  final lastIndex = sectionItems.length - 1;
-                  return BlocBuilder<GetSectionProgressBloc, GetSectionProgressState>(
-                    builder: (_, state) {
-                      if (state is GetSectionProgressGetCurrentInProgress) {
-                        return _SectionItemLoading(
-                          isEnd: index == lastIndex,
-                        );
-                      }
-
-                      if (state.currentProgress != null) {
-                        return _SectionItemView(
-                          isEnd: index == lastIndex,
-                          isCompleted: itemData.isCompleted,
-                          isActivated: itemData.isActivated,
-                          bgImage: _bgImage(itemData),
-                          image: _image(itemData),
-                          content: _contentText(context, itemData),
-                          onPressed: () => onSectionItemPressed(itemData),
-                        );
-                      }
-
+          sliver: SliverToBoxAdapter(
+            child: _SubHeaderView(),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: const SizedBox(height: Dimens.p_40),
+        ),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            width: double.infinity,
+            height: Dimens.p_180,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              itemCount: sectionItems.length,
+              itemBuilder: (context, index) {
+                final itemData = sectionItems[index];
+                final lastIndex = sectionItems.length - 1;
+                return BlocBuilder<GetSectionProgressBloc, GetSectionProgressState>(
+                  builder: (_, state) {
+                    if (state is GetSectionProgressGetCurrentInProgress) {
                       return _SectionItemLoading(
                         isEnd: index == lastIndex,
                       );
+                    }
 
-                    },
-                  );
-                },
-              ),
+                    if (state.currentProgress != null) {
+                      return _SectionItemView(
+                        isEnd: index == lastIndex,
+                        isCompleted: itemData.isCompleted,
+                        isActivated: itemData.isActivated,
+                        bgImage: _bgImage(itemData),
+                        image: _image(itemData),
+                        content: _contentText(context, itemData),
+                        onPressed: () => onSectionItemPressed(itemData),
+                      );
+                    }
+
+                    return _SectionItemLoading(
+                      isEnd: index == lastIndex,
+                    );
+
+                  },
+                );
+              },
             ),
           ),
-          SliverPadding(
-            padding: EdgeInsets.only(
-              top: Dimens.p_40,
-              left: FinfulDimens.md,
-              right: FinfulDimens.md,
-            ),
-            sliver: SliverToBoxAdapter(
-              child: DashboardStaticSchedule(
-                onPressed: onStaticSchedulePressed,
-              ),
+        ),
+        SliverPadding(
+          padding: EdgeInsets.only(
+            top: Dimens.p_40,
+            left: FinfulDimens.md,
+            right: FinfulDimens.md,
+          ),
+          sliver: SliverToBoxAdapter(
+            child: DashboardStaticSchedule(
+              onPressed: onStaticSchedulePressed,
             ),
           ),
-          SliverToBoxAdapter(
-            child: const SizedBox(height: Dimens.p_40),
+        ),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: Dimens.p_40 + context.queryPaddingBottom,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
