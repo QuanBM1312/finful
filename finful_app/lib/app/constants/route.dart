@@ -32,4 +32,6 @@ class RouteConstant {
 
   // settings
   static const String settings = '/settings';
+  static const String policy = '/policy';
+  static const String term = '/term';
 }

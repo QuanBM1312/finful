@@ -1,4 +1,3 @@
-
 import 'package:finful_app/app/constants/key/BlocConstants.dart';
 import 'package:finful_app/app/data/model/user.dart';
 import 'package:finful_app/app/domain/interactor/auth_interactor.dart';

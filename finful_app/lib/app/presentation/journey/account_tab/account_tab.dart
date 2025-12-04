@@ -70,7 +70,6 @@ class _Divider extends StatelessWidget {
   }
 }
 
-
 class AccountTab extends StatelessWidget {
   const AccountTab({
     super.key,
@@ -137,7 +136,7 @@ class AccountTab extends StatelessWidget {
           sliver: SliverToBoxAdapter(
             child: BlocBuilder<SessionBloc, SessionState>(
               builder: (_, state) {
-                final fullnameTxt = state.loggedInUser?.toFullName
+                final fullNameTxt = state.loggedInUser?.toFullName
                     ?? L10n.of(context)
                         .translate('common_dummy_name');
 
@@ -152,7 +151,7 @@ class AccountTab extends StatelessWidget {
                     ),
                     const SizedBox(height: Dimens.p_20),
                     Text(
-                      fullnameTxt,
+                      fullNameTxt,
                       style: Theme.of(context).textTheme.displaySmall!.copyWith(
                         fontSize: Dimens.p_20,
                         height: Dimens.p_14 / Dimens.p_20,

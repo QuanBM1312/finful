@@ -7,7 +7,9 @@ import 'package:finful_app/app/presentation/blocs/section/onboarding/onboarding.
 import 'package:finful_app/app/presentation/blocs/section/spending/spending.dart';
 import 'package:finful_app/app/presentation/blocs/signin/signin.dart';
 import 'package:finful_app/app/presentation/blocs/signup/signup.dart';
+import 'package:finful_app/app/presentation/journey/account_tab/policy/policy_screen.dart';
 import 'package:finful_app/app/presentation/journey/account_tab/settings/settings_screen.dart';
+import 'package:finful_app/app/presentation/journey/account_tab/term/term_screen.dart';
 import 'package:finful_app/app/presentation/journey/authentication/sign_in_screen.dart';
 import 'package:finful_app/app/presentation/journey/authentication/sign_up_screen.dart';
 import 'package:finful_app/app/presentation/journey/authentication/signup_intro_screen.dart';
@@ -116,6 +118,10 @@ class AppRoutes {
         return const DashboardScreen().buildPage(settings: settings);
       case RouteConstant.settings:
         return const SettingsScreen().buildPage(settings: settings);
+      case RouteConstant.policy:
+        return const PolicyScreen().buildPage(settings: settings);
+      case RouteConstant.term:
+        return const TermScreen().buildPage(settings: settings);
       case RouteConstant.devMode:
         return const DevModeScreen().buildPage(settings: settings);
       default:
