@@ -1,5 +1,6 @@
 import 'package:finful_app/app/data/datasource/remote/section_remote_datasource.dart';
 import 'package:finful_app/app/data/model/request/query_section_request.dart';
+import 'package:finful_app/app/data/model/response/get_education_response.dart';
 import 'package:finful_app/app/data/model/response/get_section_progress_response.dart';
 import 'package:finful_app/app/data/model/response/section_onboarding_calculate_response.dart';
 import 'package:finful_app/app/data/model/response/section_response.dart';
@@ -33,15 +34,28 @@ class SectionRemoteDatasourceImpl extends BaseRemote implements SectionRemoteDat
     final url = '$_host/onboarding/calculate';
     final requestJson = request.toAnswersMap();
     final json =
-        await post(url, ApiHeaderType.withoutToken, data: requestJson);
+    await post(url, ApiHeaderType.withoutToken, data: requestJson);
     return SectionOnboardingCalculateResponse.fromJson(json);
   }
 
   @override
   Future<GetSectionProgressResponse> getCurrentSectionProgress() async {
     final url = '$_host/section/progress';
-    final json =
-    await get(url, ApiHeaderType.withToken);
+    final json = await get(url, ApiHeaderType.withToken);
     return GetSectionProgressResponse.fromJson(json);
+  }
+
+  @override
+  Future<List<GetEducationResponse>> getEducation({
+    required String type,
+    required String location,
+  }) async {
+    final url = '$_host/education?type=$type&location=$location';
+    final json = await get(url, ApiHeaderType.withoutToken);
+    final jsonData = json;
+    final plansJson = jsonData != null && jsonData is List && jsonData.isNotEmpty
+        ? List<Map<String, dynamic>>.from(jsonData)
+        : null;
+    return plansJson?.map(GetEducationResponse.fromJson).toList() ?? <GetEducationResponse>[];
   }
 }

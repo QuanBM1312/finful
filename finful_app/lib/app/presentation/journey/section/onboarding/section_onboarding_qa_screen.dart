@@ -43,6 +43,7 @@ class _SectionOnboardingQAScreenState extends State<SectionOnboardingQAScreen>
   final FocusScopeNode _focusScopeNode = FocusScopeNode();
   late TextEditingController _inputController;
   final FocusNode _inputNode = FocusNode();
+  bool _showEducationView = false;
 
   @override
   void initState() {
@@ -94,11 +95,14 @@ class _SectionOnboardingQAScreenState extends State<SectionOnboardingQAScreen>
   }
 
   void _educationContinuePressed(OnboardingState state) {
-    final nextStep = state.sectionOnboardings.length + 1;
-    BlocManager().event<OnboardingBloc>(
-      BlocConstants.sectionOnboarding,
-      OnboardingGetNextStepStarted(nextStep: nextStep),
-    );
+    // final nextStep = state.sectionOnboardings.length + 1;
+    // BlocManager().event<OnboardingBloc>(
+    //   BlocConstants.sectionOnboarding,
+    //   OnboardingGetNextStepStarted(nextStep: nextStep),
+    // );
+    setState(() {
+      _showEducationView = true;
+    });
   }
 
   void _onAnswerSelected(
@@ -161,6 +165,9 @@ class _SectionOnboardingQAScreenState extends State<SectionOnboardingQAScreen>
       BlocConstants.sectionOnboarding,
       OnboardingGetPreviousStepStarted(),
     );
+    setState(() {
+      _showEducationView = false;
+    });
   }
 
   void _processSubmitCalculate() {
@@ -269,6 +276,15 @@ class _SectionOnboardingQAScreenState extends State<SectionOnboardingQAScreen>
     ];
   }
 
+  String _headerTitleText() {
+    if (!_showEducationView) {
+      return L10n.of(context)
+          .translate('section_onboarding_qa_header_title');
+    }
+
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
@@ -286,8 +302,7 @@ class _SectionOnboardingQAScreenState extends State<SectionOnboardingQAScreen>
           appBar: FinfulAppBar(
             backgroundColor: Colors.transparent,
             forceMaterialTransparency: true,
-            title: L10n.of(context)
-                .translate('section_onboarding_qa_header_title'),
+            title: _headerTitleText(),
             titleStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
               fontWeight: FontWeight.w500,
             ),
@@ -310,39 +325,43 @@ class _SectionOnboardingQAScreenState extends State<SectionOnboardingQAScreen>
                     Positioned.fill(
                       child: CustomScrollView(
                         slivers: [
-                          SliverPadding(
-                            padding: EdgeInsets.only(
-                              top: Dimens.p_4,
-                            ),
-                            sliver: SliverToBoxAdapter(
-                              child: BlocBuilder<OnboardingBloc, OnboardingState>(
-                                builder: (_, state) {
-                                  if (state.sectionOnboardings.isEmpty) {
-                                    return const SizedBox();
-                                  }
-
-                                  final currentSection = state.sectionOnboardings.last;
-                                  final currentStep = currentSection.section.currentStep;
-                                  final totalStep = currentSection.section.totalStep;
-
-                                  if (currentStep == null ||
-                                      totalStep == null) {
-                                    return const SizedBox();
-                                  }
-
-                                  final stepType = SectionStepTypeExt.fromValue(
-                                      currentSection.section.stepType);
-                                  if (stepType == SectionStepType.Final) {
-                                    return const SizedBox();
-                                  }
-
-                                  return SectionProgressBar(
-                                    current: currentStep - 1,
-                                    total: totalStep,
-                                  );
-                                },
+                          if (!_showEducationView)
+                            SliverPadding(
+                              padding: EdgeInsets.only(
+                                top: Dimens.p_4,
                               ),
-                            ),
+                              sliver: SliverToBoxAdapter(
+                                child: BlocBuilder<OnboardingBloc, OnboardingState>(
+                                  builder: (_, state) {
+                                    if (state.sectionOnboardings.isEmpty) {
+                                      return const SizedBox();
+                                    }
+
+                                    final currentSection = state.sectionOnboardings.last;
+                                    final currentStep = currentSection.section.currentStep;
+                                    final totalStep = currentSection.section.totalStep;
+
+                                    if (currentStep == null ||
+                                        totalStep == null) {
+                                      return const SizedBox();
+                                    }
+
+                                    final stepType = SectionStepTypeExt.fromValue(
+                                        currentSection.section.stepType);
+                                    if (stepType == SectionStepType.Final) {
+                                      return const SizedBox();
+                                    }
+
+                                    return SectionProgressBar(
+                                      current: currentStep - 1,
+                                      total: totalStep,
+                                    );
+                                  },
+                                ),
+                              ),
+                            )
+                          else const SliverToBoxAdapter(
+                            child: SizedBox(),
                           ),
                           SliverPadding(
                             padding: EdgeInsets.only(
@@ -353,6 +372,7 @@ class _SectionOnboardingQAScreenState extends State<SectionOnboardingQAScreen>
                               child: SectionOnboardingQAContent(
                                 inputController: _inputController,
                                 inputNode: _inputNode,
+                                showEducationView: _showEducationView,
                               ),
                             ),
                           ),

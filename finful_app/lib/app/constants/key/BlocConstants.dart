@@ -27,6 +27,9 @@ class BlocConstants {
   // plan
   static const Key getPlan = Key('get_plan_bloc');
   static const Key createPlan = Key('create_plan_bloc');
+
+  // education
+  static const Key getEducation = Key('get_education_bloc');
 }
 
 class BlocBroadcastEventConstants {

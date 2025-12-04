@@ -6,6 +6,7 @@ import 'package:finful_app/app/injection/injection.dart';
 import 'package:finful_app/app/presentation/blocs/section/onboarding/onboarding.dart';
 import 'package:finful_app/app/presentation/widgets/app_image/FinfulImage.dart';
 import 'package:finful_app/app/presentation/widgets/app_input/FinfulTextInput.dart';
+import 'package:finful_app/app/presentation/widgets/education/education_view.dart';
 import 'package:finful_app/app/presentation/widgets/section/section_option_card.dart';
 import 'package:finful_app/app/presentation/widgets/section/section_options_wrapper.dart';
 import 'package:finful_app/app/presentation/widgets/section/section_qa_content_loading.dart';
@@ -26,10 +27,12 @@ class SectionOnboardingQAContent extends StatelessWidget {
     super.key,
     required this.inputController,
     required this.inputNode,
+    required this.showEducationView,
   });
 
   final TextEditingController inputController;
   final FocusNode inputNode;
+  final bool showEducationView;
 
   void _onAnswerSelected(
       String? questionKey,
@@ -243,7 +246,10 @@ class SectionOnboardingQAContent extends StatelessWidget {
             return const SizedBox();
         }
       } else if (stepType == SectionStepType.education) {
-        return _renderEducationContent(context, data);
+        if (!showEducationView) {
+          return _renderEducationContent(context, data);
+        }
+        return const EducationView();
       } else if (stepType == SectionStepType.Final) {
         return SectionOnboardingCalculateResult();
       } else {

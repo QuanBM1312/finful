@@ -1,5 +1,6 @@
 import 'package:finful_app/app/data/datasource/remote/section_remote_datasource.dart';
 import 'package:finful_app/app/data/model/request/query_section_request.dart';
+import 'package:finful_app/app/data/model/response/get_education_response.dart';
 import 'package:finful_app/app/data/model/response/get_section_progress_response.dart';
 import 'package:finful_app/app/data/model/response/section_onboarding_calculate_response.dart';
 import 'package:finful_app/app/data/model/response/section_response.dart';
@@ -29,7 +30,7 @@ class SectionRepositoryImpl implements SectionRepository {
     required List<SectionAnswerRequest> request
   }) async {
     final response = await _sectionRemoteDatasource.postOnboardingCalculate(
-        request: request,
+      request: request,
     );
     return response;
   }
@@ -37,6 +38,18 @@ class SectionRepositoryImpl implements SectionRepository {
   @override
   Future<GetSectionProgressResponse> getCurrentSectionProgress() async {
     final response = await _sectionRemoteDatasource.getCurrentSectionProgress();
+    return response;
+  }
+
+  @override
+  Future<List<GetEducationResponse>> getEducation({
+    required String type,
+    required String location,
+  }) async {
+    final response = await _sectionRemoteDatasource.getEducation(
+      type: type,
+      location: location,
+    );
     return response;
   }
 

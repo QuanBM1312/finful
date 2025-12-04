@@ -100,6 +100,9 @@ class FinfulColor {
   static const Color sliderThumbColor = white;
   static const Color sliderOverlayColor = brandPrimary;
 
+  // divider
+  static const Color divider = Color(0xFF363539);
+
   static const Color backgroundLight = Color(0xFFF5F6FD);
 
   static const Color textFieldBgColor = Color(0xFF1D1E21);

@@ -1,4 +1,5 @@
 import 'package:finful_app/app/data/model/response/section_onboarding_calculate_response.dart';
+import 'package:finful_app/app/domain/model/education_model.dart';
 import 'package:finful_app/app/domain/model/section_model.dart';
 import 'package:finful_app/app/domain/model/section_progress_model.dart';
 
@@ -28,4 +29,9 @@ abstract interface class SectionInteractor {
   });
 
   Future<SectionProgressModel> getCurrentSectionProgress();
+
+  Future<List<EducationModel>> getEducation({
+    required String type,
+    required String location,
+  });
 }

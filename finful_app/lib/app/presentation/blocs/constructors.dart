@@ -11,6 +11,7 @@ import 'common/loader/loader_bloc.dart';
 import 'common/session/session_bloc.dart';
 import 'common/show_message/show_message_bloc.dart';
 import 'create_plan/create_plan_bloc.dart';
+import 'get_education/get_education.dart';
 import 'get_plan/get_plan_bloc.dart';
 import 'get_section_progress/get_section_progress_bloc.dart';
 import 'section/assumptions/assumptions_bloc.dart';
@@ -72,4 +73,8 @@ final Map<Type, Object Function(Key key)> blocConstructors = {
     sectionInteractor: Injection().getIt<SectionInteractor>(),
   ),
   StoredDraftBloc: StoredDraftBloc.new,
+  GetEducationBloc: (Key key) => GetEducationBloc(
+    key,
+    sectionInteractor: Injection().getIt<SectionInteractor>(),
+  ),
 };

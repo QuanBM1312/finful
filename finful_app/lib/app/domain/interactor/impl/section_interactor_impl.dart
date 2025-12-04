@@ -1,10 +1,10 @@
-
 import 'package:finful_app/app/data/enum/section.dart';
 import 'package:finful_app/app/data/enum/section_progress.dart';
 import 'package:finful_app/app/data/model/request/query_section_request.dart';
 import 'package:finful_app/app/data/model/response/section_onboarding_calculate_response.dart';
 import 'package:finful_app/app/data/repository/section_repository.dart';
 import 'package:finful_app/app/domain/interactor/section_interactor.dart';
+import 'package:finful_app/app/domain/model/education_model.dart';
 import 'package:finful_app/app/domain/model/extension/extension.dart';
 import 'package:finful_app/app/domain/model/section_model.dart';
 import 'package:finful_app/app/domain/model/section_progress_model.dart';
@@ -143,6 +143,26 @@ class SectionInteractorImpl implements SectionInteractor {
       assumptions: assumptions,
     );
     return progressModel;
+  }
+
+  @override
+  Future<List<EducationModel>> getEducation({
+    required String type,
+    required String location,
+  }) async {
+    final response = await _sectionRepository.getEducation(
+      type: type,
+      location: location,
+    );
+    final formattedResponse = response.where((e) => e.order != null).toList();
+    final data = formattedResponse.map((e) => EducationModel(
+      title: e.title,
+      message: e.message,
+      url: e.url,
+      order: e.order!,
+    )).toList();
+    data.sort((a, b) => a.order.compareTo(b.order));
+    return data;
   }
 
 }
