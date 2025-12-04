@@ -171,10 +171,6 @@ class _SectionSpendingQAScreenState extends State<SectionSpendingQAScreen>
     router.gotoSectionAssumptions();
   }
 
-  void _processGoBackDashboard() {
-    router.goBackDashboard();
-  }
-
   void _processGetNextStepSuccess(SpendingGetNextStepSuccess state) {
     final currentSection = state.sectionSpendings.last;
     final stepType = SectionStepTypeExt.fromValue(
@@ -214,6 +210,8 @@ class _SectionSpendingQAScreenState extends State<SectionSpendingQAScreen>
       _processGetNextStepSuccess(state);
     } else if (state is SpendingGetPreviousStepSuccess) {
       _processGetPreviousStepSuccess(state);
+    } else if (state is SpendingCalculateSuccess) {
+      _processGotoAssumptionsFlow();
     }
   }
 
@@ -333,28 +331,7 @@ class _SectionSpendingQAScreenState extends State<SectionSpendingQAScreen>
                             if (state is SpendingCalculateInProgress) {
                               return const SizedBox();
                             } else if (state is SpendingCalculateSuccess) {
-                              return Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: FinfulDimens.md,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    FinfulButton.secondary(
-                                      title: L10n.of(context)
-                                          .translate('common_cta_back_dashboard_btn'),
-                                      onPressed: _processGoBackDashboard,
-                                    ),
-                                    const SizedBox(height: Dimens.p_18),
-                                    FinfulButton.primary(
-                                      title: L10n.of(context)
-                                          .translate('section_spending_result_go_assumptions_btn'),
-                                      onPressed: _processGotoAssumptionsFlow,
-                                    ),
-                                    const SizedBox(height: Dimens.p_18),
-                                  ],
-                                ),
-                              );
+                              return const SizedBox();
                             }
 
                             return const SizedBox();
@@ -371,6 +348,7 @@ class _SectionSpendingQAScreenState extends State<SectionSpendingQAScreen>
                                   FinfulButton.primary(
                                     title: L10n.of(context)
                                         .translate('section_spending_cta_final_btn'),
+                                    isLoading: state is SpendingCalculateInProgress,
                                     onPressed: () {
                                       if (stepType == SectionStepType.education) {
                                         _educationContinuePressed(state);

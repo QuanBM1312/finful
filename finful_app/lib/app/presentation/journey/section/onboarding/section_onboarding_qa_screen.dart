@@ -449,6 +449,7 @@ class _SectionOnboardingQAScreenState extends State<SectionOnboardingQAScreen>
                                   FinfulButton.primary(
                                     title: L10n.of(context)
                                         .translate('section_onboarding_cta_final_btn'),
+                                    isLoading: state is OnboardingCalculateInProgress,
                                     onPressed: () {
                                       if (stepType == SectionStepType.education) {
                                         _educationContinuePressed(state);

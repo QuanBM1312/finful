@@ -1,5 +1,6 @@
 import 'package:finful_app/app/constants/images.dart';
 import 'package:finful_app/app/presentation/widgets/app_image/FinfulImage.dart';
+import 'package:finful_app/app/presentation/widgets/section/section_animated_text.dart';
 import 'package:finful_app/app/theme/colors.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +34,9 @@ class EducationContentTile extends StatelessWidget {
               ),
               const SizedBox(width: Dimens.p_6),
               Expanded(
-                child: Text(
-                  title,
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                child: SectionAnimatedText(
+                  value: title,
+                  textStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     color: FinfulColor.brandPrimary,
                     fontWeight: FontWeight.w500,
                   ),
@@ -44,9 +45,9 @@ class EducationContentTile extends StatelessWidget {
             ],
           ),
           const SizedBox(height: Dimens.p_6),
-          Text(
-            description,
-            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+          SectionAnimatedText(
+            value: description,
+            textStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
               color: FinfulColor.textWOpacity80,
               fontWeight: FontWeight.w400,
             ),

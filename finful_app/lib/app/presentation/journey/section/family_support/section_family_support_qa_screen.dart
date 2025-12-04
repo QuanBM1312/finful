@@ -11,6 +11,7 @@ import 'package:finful_app/app/presentation/widgets/app_button/FinfulButton.dart
 import 'package:finful_app/app/presentation/widgets/section/section_progress_bar.dart';
 import 'package:finful_app/app/theme/colors.dart';
 import 'package:finful_app/app/theme/dimens.dart';
+import 'package:finful_app/app/utils/utils.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
 import 'package:finful_app/common/widgets/app_bar/finful_app_bar.dart';
 import 'package:finful_app/common/widgets/app_icon/app_icon.dart';
@@ -158,12 +159,9 @@ class _SectionFamilySupportQAScreenState extends State<SectionFamilySupportQAScr
     );
   }
 
-  void _processGotoSpendingFlow() {
+  Future<void> _processGotoSpendingFlow() async {
+    forceDelay(duration: Duration(milliseconds: 500));
     router.gotoSectionSpending();
-  }
-
-  void _processGoBackDashboard() {
-    router.goBackDashboard();
   }
 
   void _processSubmitAnswers() {
@@ -214,6 +212,8 @@ class _SectionFamilySupportQAScreenState extends State<SectionFamilySupportQAScr
       _processGetNextStepSuccess(state);
     } else if (state is FamilySupportGetPreviousStepSuccess) {
       _processGetPreviousStepSuccess(state);
+    } else if (state is FamilySupportSubmitAnswerSuccess) {
+      _processGotoSpendingFlow();
     }
   }
 
@@ -332,28 +332,7 @@ class _SectionFamilySupportQAScreenState extends State<SectionFamilySupportQAScr
                           if (state is FamilySupportSubmitAnswerInProgress) {
                             return const SizedBox();
                           } else if (state is FamilySupportSubmitAnswerSuccess) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: FinfulDimens.md,
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  FinfulButton.secondary(
-                                    title: L10n.of(context)
-                                        .translate('common_cta_back_dashboard_btn'),
-                                    onPressed: _processGoBackDashboard,
-                                  ),
-                                  const SizedBox(height: Dimens.p_12),
-                                  FinfulButton.primary(
-                                    title: L10n.of(context)
-                                        .translate('section_familySupport_result_go_spending_btn'),
-                                    onPressed: _processGotoSpendingFlow,
-                                  ),
-                                  const SizedBox(height: Dimens.p_12),
-                                ],
-                              ),
-                            );
+                            return const SizedBox();
                           }
 
                           if (currentStep == totalStep) {
@@ -367,6 +346,7 @@ class _SectionFamilySupportQAScreenState extends State<SectionFamilySupportQAScr
                                   FinfulButton.primary(
                                     title: L10n.of(context)
                                         .translate('common_cta_submit'),
+                                    isLoading: state is FamilySupportSubmitAnswerInProgress,
                                     onPressed: () {
                                       if (stepType == SectionStepType.education) {
                                         _educationContinuePressed(state);

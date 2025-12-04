@@ -3,6 +3,7 @@ import 'package:finful_app/app/constants/key/BlocConstants.dart';
 import 'package:finful_app/app/presentation/blocs/section/onboarding/onboarding.dart';
 import 'package:finful_app/app/presentation/widgets/app_button/FinfulButton.dart';
 import 'package:finful_app/app/presentation/widgets/app_image/FinfulImage.dart';
+import 'package:finful_app/app/presentation/widgets/section/section_animated_text.dart';
 import 'package:finful_app/app/theme/colors.dart';
 import 'package:finful_app/app/theme/dimens.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
@@ -89,9 +90,9 @@ class _EducationContentViewState extends State<EducationContentView>
                   ),
                   const SizedBox(width: Dimens.p_6),
                   Expanded(
-                    child: Text(
-                      widget.title!,
-                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                    child: SectionAnimatedText(
+                      value: widget.title!,
+                      textStyle: Theme.of(context).textTheme.displaySmall!.copyWith(
                         color: FinfulColor.brandPrimary,
                         fontWeight: FontWeight.w500,
                       ),
@@ -101,9 +102,9 @@ class _EducationContentViewState extends State<EducationContentView>
               ),
             ) else const SizedBox(),
           if (widget.description.isNotNullAndEmpty)
-            Text(
-              widget.description!,
-              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+            SectionAnimatedText(
+              value: widget.description!,
+              textStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
                 height: Dimens.p_23 / Dimens.p_16,
                 fontWeight: FontWeight.w400,
               ),

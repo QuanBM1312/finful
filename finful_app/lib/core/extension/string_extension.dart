@@ -2,6 +2,7 @@ import '../regex/regex.dart';
 import 'package:tiengviet/tiengviet.dart';
 
 extension StringExtension on String {
+
   /// Từ "tỷ" (vd: "4.5", "10") → số nguyên triệu
   /// "4.5"   → 4500
   /// "10"    → 10000

@@ -6,8 +6,6 @@ import 'package:finful_app/core/presentation/base_router.dart';
 
 abstract interface class ISectionSpendingQARouter {
   void gotoSectionAssumptions();
-
-  void goBackDashboard();
 }
 
 class SectionSpendingQARouter extends BaseRouter implements ISectionSpendingQARouter {
@@ -29,12 +27,6 @@ class SectionSpendingQARouter extends BaseRouter implements ISectionSpendingQARo
   @override
   Future<T?> start<T extends Object?>() {
     return pushNamed(RouteConstant.sectionSpendingQA, router: this);
-  }
-
-  @override
-  void goBackDashboard() {
-    final router = DashboardRouter();
-    router.startAndRemoveUntil(null);
   }
 
 }

@@ -418,11 +418,16 @@ class _SignUpScreenState extends State<SignUpScreen>
                                 validator: _onPasswordConfirmValidator,
                               ),
                               const SizedBox(height: Dimens.p_25),
-                              FinfulButton.primary(
-                                title: L10n.of(context)
-                                    .translate('common_cta_signup'),
-                                color: FinfulColor.btnAuth,
-                                onPressed: _onSubmitPressed,
+                              BlocBuilder<SignUpBloc, SignUpState>(
+                                  builder: (_, state) {
+                                    return FinfulButton.primary(
+                                      title: L10n.of(context)
+                                          .translate('common_cta_signup'),
+                                      isLoading: state is SignUpInProgress,
+                                      color: FinfulColor.btnAuth,
+                                      onPressed: _onSubmitPressed,
+                                    );
+                                  }
                               ),
                               const SizedBox(height: Dimens.p_25),
                               SizedBox(

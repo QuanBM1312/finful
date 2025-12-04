@@ -58,7 +58,7 @@ extension NumExtension on num {
       return 'Âm ${(-this).toVietnameseWords()}';
     }
 
-    final readPair = (int b, int c) {
+    String readPair(int b, int c) {
       return b == 0
           ? c == 0
               ? ''
@@ -66,9 +66,9 @@ extension NumExtension on num {
           : b == 1
               ? 'mười ${c == 0 ? '' : c == 5 ? 'lăm' : digits[c]}'
               : '${digits[b]} mươi ${c == 0 ? '' : c == 1 ? 'một' : c == 4 ? 'tư' : c == 5 ? 'lăm' : digits[c]}';
-    };
+    }
 
-    final readTriple = (List<String> triple, bool showZeroHundred) {
+    String readTriple(List<String> triple, bool showZeroHundred) {
       final a = int.parse(triple[0]);
       final b = int.parse(triple[1]);
       final c = int.parse(triple[2]);
@@ -85,12 +85,12 @@ extension NumExtension on num {
         return readPair(b, c);
       }
       return '${digits[a]} trăm ${readPair(b, c)}';
-    };
+    }
 
-    final shouldShowZeroHundred = (List<List<String>> groups) {
+    bool shouldShowZeroHundred(List<List<String>> groups) {
       return groups.reversed.takeWhile((item) => item.join() == '000').length <
           groups.length - 1;
-    };
+    }
 
     final stringValue = toString();
     final groups = (zeroLeftPadding[stringValue.length % 3] + stringValue)
@@ -122,4 +122,16 @@ extension IntExtension on int? {
   bool get isNotNullAndPositive => this != null && this! >= 0;
 
   bool get isNotNullAndNegative => this != null && this! < 0;
+}
+
+extension DoubleExtension on double {
+  String get formatBillion {
+    // Làm tròn đến 2 chữ số thập phân, nhưng bỏ .00 nếu là số nguyên
+    if (this % 1 == 0) {
+      return toStringAsFixed(0); // 3 → "3"
+    } else {
+      return toStringAsFixed(2)
+          .replaceFirst(RegExp(r'\.?0+$'), ''); // 3.30 → "3.3", 3.25 → "3.25"
+    }
+  }
 }

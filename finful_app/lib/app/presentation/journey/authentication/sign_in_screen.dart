@@ -2,6 +2,7 @@ import 'package:finful_app/app/constants/constants.dart';
 import 'package:finful_app/app/constants/key/BlocConstants.dart';
 import 'package:finful_app/app/presentation/blocs/create_plan/create_plan.dart';
 import 'package:finful_app/app/presentation/blocs/mixins/loader_bloc_mixin.dart';
+import 'package:finful_app/app/presentation/blocs/mixins/show_message_mixin.dart';
 import 'package:finful_app/app/presentation/blocs/mixins/stored_draft_bloc_mixin.dart';
 import 'package:finful_app/app/presentation/blocs/signin/signin.dart';
 import 'package:finful_app/app/presentation/blocs/stored_draft/stored_draft.dart';
@@ -30,7 +31,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen>
     with BaseScreenMixin<SignInScreen, SignInRouter>,
-        StoredDraftBlocMixin, LoaderBlocMixin {
+        StoredDraftBlocMixin, LoaderBlocMixin, ShowMessageBlocMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final FocusScopeNode _focusScopeNode = FocusScopeNode();
   late TextEditingController _emailController;
@@ -139,6 +140,7 @@ class _SignInScreenState extends State<SignInScreen>
     final isHasData = onboardingDraftData != null && onboardingDraftData.isNotEmpty;
     final shouldCreatePlan = isAutoLogin && isHasData;
     if (shouldCreatePlan) {
+      showAppLoading();
       BlocManager().event<CreatePlanBloc>(
         BlocConstants.createPlan,
         CreatePlanFromDraftDataStarted(
@@ -151,6 +153,7 @@ class _SignInScreenState extends State<SignInScreen>
   }
 
   void _processAfterStartedCreatePlanFromDraftData() {
+    hideAppLoading();
     BlocManager().event<StoredDraftBloc>(
       BlocConstants.storedDraft,
       StoredDraftClearOnboardingDataStarted(),
@@ -332,11 +335,16 @@ class _SignInScreenState extends State<SignInScreen>
                                 ],
                               ),
                               const SizedBox(height: Dimens.p_25),
-                              FinfulButton.primary(
-                                title: L10n.of(context)
-                                    .translate('common_cta_signin'),
-                                color: FinfulColor.btnAuth,
-                                onPressed: _onSubmitPressed,
+                              BlocBuilder<SignInBloc, SignInState>(
+                                builder: (_, state) {
+                                  return FinfulButton.primary(
+                                    title: L10n.of(context)
+                                        .translate('common_cta_signin'),
+                                    color: FinfulColor.btnAuth,
+                                    isLoading: state is SignInInProgress,
+                                    onPressed: _onSubmitPressed,
+                                  );
+                                },
                               ),
                               const SizedBox(height: Dimens.p_25),
                               SizedBox(

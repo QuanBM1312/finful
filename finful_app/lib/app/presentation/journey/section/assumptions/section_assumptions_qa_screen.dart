@@ -604,6 +604,7 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
                             FinfulButton.primary(
                               title: L10n.of(context)
                                   .translate('section_assumptions_cta_final_btn'),
+                              isLoading: state is AssumptionsCalculateInProgress,
                               onPressed: () {
                                 if (stepType == SectionStepType.question) {
                                   _onAnswerSelected(questionKey, quesType);

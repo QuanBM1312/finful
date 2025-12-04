@@ -8,7 +8,6 @@ import 'package:finful_app/app/presentation/journey/section/assumptions/widgets/
 import 'package:finful_app/app/presentation/widgets/app_image/FinfulImage.dart';
 import 'package:finful_app/app/presentation/widgets/section/section_options_wrapper.dart';
 import 'package:finful_app/app/presentation/widgets/section/section_qa_content_loading.dart';
-import 'package:finful_app/app/presentation/widgets/section/section_question_text.dart';
 import 'package:finful_app/app/theme/colors.dart';
 import 'package:finful_app/app/theme/dimens.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
@@ -88,8 +87,11 @@ class SectionAssumptionsQAContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: Dimens.p_56),
-          SectionQuestionText(
-            value: questionTxt,
+          Text(
+            questionTxt,
+            style: Theme.of(context).textTheme.displaySmall!.copyWith(
+              fontWeight: FontWeight.w400,
+            ),
           ),
           const SizedBox(height: Dimens.p_27),
           Row(
@@ -134,8 +136,9 @@ class SectionAssumptionsQAContent extends StatelessWidget {
             spots: allSpots(isSalary),
             title: chartLegendTitle,
           ) else const SizedBox(),
-          if (showBarChart) SectionAssumptionsBarchart1()
-          else const SizedBox(),
+          if (showBarChart) SectionAssumptionsBarchart1(
+            sliderValueSelected: sliderValueSelected,
+          ) else const SizedBox(),
           const SizedBox(height: Dimens.p_40),
           if (listExplanations.isNotEmpty)
             Column(
@@ -263,9 +266,9 @@ class SectionAssumptionsQAContent extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Dimens.p_24),
-          SectionQuestionText(
-            value: questionTxt,
-            textStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
+          Text(
+            questionTxt,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
               height: Dimens.p_25 / Dimens.p_16,
             ),
           ),

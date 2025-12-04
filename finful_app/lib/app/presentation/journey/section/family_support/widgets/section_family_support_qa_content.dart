@@ -6,10 +6,10 @@ import 'package:finful_app/app/injection/injection.dart';
 import 'package:finful_app/app/presentation/blocs/section/family_support/family_support.dart';
 import 'package:finful_app/app/presentation/widgets/app_image/FinfulImage.dart';
 import 'package:finful_app/app/presentation/widgets/app_input/FinfulTextInput.dart';
+import 'package:finful_app/app/presentation/widgets/section/section_animated_text.dart';
 import 'package:finful_app/app/presentation/widgets/section/section_option_card.dart';
 import 'package:finful_app/app/presentation/widgets/section/section_options_wrapper.dart';
 import 'package:finful_app/app/presentation/widgets/section/section_qa_content_loading.dart';
-import 'package:finful_app/app/presentation/widgets/section/section_question_text.dart';
 import 'package:finful_app/app/theme/theme.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
 import 'package:finful_app/core/bloc/base/bloc_manager.dart';
@@ -17,6 +17,7 @@ import 'package:finful_app/core/extension/extension.dart';
 import 'package:finful_app/core/localization/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pretty_animated_text/pretty_animated_text.dart';
 
 import 'section_family_support_qa_submit_result.dart';
 
@@ -71,8 +72,11 @@ class SectionFamilySupportQAContent extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Dimens.p_34),
-          SectionQuestionText(
-            value: questionTxt,
+          Text(
+            questionTxt,
+            style: Theme.of(context).textTheme.displaySmall!.copyWith(
+              fontWeight: FontWeight.w400,
+            ),
           ),
           const SizedBox(height: Dimens.p_34),
           FinfulTextInput.single(
@@ -123,8 +127,11 @@ class SectionFamilySupportQAContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionQuestionText(
-            value: questionTxt,
+          Text(
+            questionTxt,
+            style: Theme.of(context).textTheme.displaySmall!.copyWith(
+              fontWeight: FontWeight.w400,
+            ),
           ),
           const SizedBox(height: Dimens.p_25),
           if (listOption.isNotEmpty)
@@ -188,12 +195,12 @@ class SectionFamilySupportQAContent extends StatelessWidget {
               top: Dimens.p_21,
               bottom: Dimens.p_32,
             ),
-            child: Text(
-              payload.title ?? "",
-              style: Theme.of(context).textTheme.displaySmall!.copyWith(
+            child: SectionAnimatedText(
+              value: payload.title ?? "",
+              textStyle: Theme.of(context).textTheme.displaySmall!.copyWith(
                 fontWeight: FontWeight.w700,
               ),
-              textAlign: TextAlign.center,
+              textAlign: TextAlignment.center,
             ),
           ),
           if (payload.image.isNotNullAndEmpty)
@@ -208,12 +215,12 @@ class SectionFamilySupportQAContent extends StatelessWidget {
             padding: EdgeInsets.symmetric(
               horizontal: Dimens.p_22,
             ),
-            child: Text(
-              payload.text ?? "",
-              style: Theme.of(context).textTheme.displaySmall!.copyWith(
+            child: SectionAnimatedText(
+              value: payload.text ?? "",
+              textStyle: Theme.of(context).textTheme.displaySmall!.copyWith(
                 fontWeight: FontWeight.w500,
               ),
-              textAlign: TextAlign.center,
+              textAlign: TextAlignment.center,
             ),
           ),
           SizedBox(height: Dimens.p_64 + context.queryPaddingBottom),

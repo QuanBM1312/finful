@@ -8,6 +8,7 @@
         android:usesCleartextTraffic="true"
         android:showWhenLocked="true"
         android:turnScreenOn="true"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -2,23 +2,84 @@ import 'package:finful_app/app/constants/images.dart';
 import 'package:finful_app/app/presentation/widgets/app_image/FinfulImage.dart';
 import 'package:finful_app/app/theme/theme.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
-import 'package:finful_app/core/extension/context_extension.dart';
+import 'package:finful_app/core/extension/extension.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class SectionAssumptionsBarchart1 extends StatefulWidget {
-  const SectionAssumptionsBarchart1({super.key});
+  const SectionAssumptionsBarchart1({
+    super.key,
+    required this.sliderValueSelected,
+  });
+
+  final int sliderValueSelected;
 
   @override
   State<SectionAssumptionsBarchart1> createState() => _SectionAssumptionsBarchart1State();
 }
 
 class _SectionAssumptionsBarchart1State extends State<SectionAssumptionsBarchart1> {
-  final List<double> salary = const [1.2, 1.3, 1.4];
-  final List<double> borrow = const [1.8, 2.0, 2.3];
-  final List<double> totalLine = const [3.0, 3.3, 3.7];
-
   final int startYear = DateTime.now().year; // current year
+
+  List<double> displaySalary = [];
+  List<double> displayBorrow = [];
+  List<double> displayTotalLine = [];
+  bool _dataReady = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _calculateData();
+  }
+
+  @override
+  void didUpdateWidget(SectionAssumptionsBarchart1 oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.sliderValueSelected != widget.sliderValueSelected) {
+      _calculateData();
+    }
+  }
+
+  void _calculateData() {
+    final double rate = widget.sliderValueSelected / 100.0;
+
+    const double salaryThisYear = 1.2;     // 1.2 tỷ
+    const double borrowThisYear = 1.8;     // 1.8 tỷ
+    const double totalThisYear = 3.0;      // 3.0 tỷ
+
+    // Tính tăng trưởng từ năm sau
+    final double salaryNext1 = salaryThisYear * (1 + rate);
+    final double salaryNext2 = salaryNext1 * (1 + rate);
+
+    final double borrowNext1 = borrowThisYear * (1 + rate);
+    final double borrowNext2 = borrowNext1 * (1 + rate);
+
+    final double totalNext1 = totalThisYear * (1 + rate);
+    final double totalNext2 = totalNext1 * (1 + rate);
+
+    displaySalary = [
+      salaryThisYear,
+      salaryNext1,
+      salaryNext2,
+    ];
+
+    displayBorrow = [
+      borrowThisYear,
+      borrowNext1,
+      borrowNext2,
+    ];
+
+    displayTotalLine = [
+      totalThisYear,
+      totalNext1,
+      totalNext2,
+    ];
+
+    _dataReady = true;
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
   double get chartContainerWidth => context.queryWidth;
 
@@ -64,7 +125,11 @@ class _SectionAssumptionsBarchart1State extends State<SectionAssumptionsBarchart
 
   @override
   Widget build(BuildContext context) {
-    final chartMaxY = totalLine.reduce((a, b) => a > b ? a : b) * 1.1;
+    if (!_dataReady) {
+      return const SizedBox();
+    }
+
+    final chartMaxY = displayTotalLine.reduce((a, b) => a > b ? a : b) * 1.1;
     const chartMinY = 0.0;
 
     const lineChartMinX = -0.9;
@@ -153,14 +218,14 @@ class _SectionAssumptionsBarchart1State extends State<SectionAssumptionsBarchart
       x: i,
       barRods: [
         BarChartRodData(
-          toY: salary[i] + borrow[i],
+          toY: displaySalary[i] + displayBorrow[i],
           width: Dimens.p_60,
           borderRadius: BorderRadius.zero,
           rodStackItems: [
             BarChartRodStackItem(
-              0, salary[i], FinfulColor.brandPrimary,
+              0, displaySalary[i], FinfulColor.brandPrimary,
               borderSide: BorderSide.none,
-              label: "${salary[i]}",
+              label: displaySalary[i].formatBillion,
               labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: FinfulColor.black12,
                 height: Dimens.p_15 / Dimens.p_12,
@@ -168,9 +233,9 @@ class _SectionAssumptionsBarchart1State extends State<SectionAssumptionsBarchart
               ),
             ),
             BarChartRodStackItem(
-              salary[i], salary[i] + borrow[i], FinfulColor.barChartContentBorrow,
+              displaySalary[i], displaySalary[i] + displayBorrow[i], FinfulColor.barChartContentBorrow,
               borderSide: BorderSide.none,
-              label: "${borrow[i]}",
+              label: displayBorrow[i].formatBillion,
               labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: FinfulColor.black12,
                 height: Dimens.p_15 / Dimens.p_12,
@@ -194,7 +259,7 @@ class _SectionAssumptionsBarchart1State extends State<SectionAssumptionsBarchart
     );
     final lineChartLineBarsData = [
       LineChartBarData(
-        spots: totalLine.asMap().entries.map((e) => FlSpot(e.key.toDouble(), e.value)).toList(),
+        spots: displayTotalLine.asMap().entries.map((e) => FlSpot(e.key.toDouble(), e.value)).toList(),
         isCurved: true,
         curveSmoothness: 0.3,
         color: Colors.white,
@@ -205,7 +270,7 @@ class _SectionAssumptionsBarchart1State extends State<SectionAssumptionsBarchart
         ),
       ),
     ];
-    final showingTooltipIndicators = totalLine.asMap().entries.map((e) {
+    final showingTooltipIndicators = displayTotalLine.asMap().entries.map((e) {
       final flSpotItem = FlSpot(e.key.toDouble(), e.value);
       return ShowingTooltipIndicators([
         LineBarSpot(
@@ -240,7 +305,7 @@ class _SectionAssumptionsBarchart1State extends State<SectionAssumptionsBarchart
         getTooltipItems: (touchedSpots) {
           return touchedSpots.map((spot) {
             return LineTooltipItem(
-              '${spot.y}',
+              spot.y.formatBillion,
               Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: FinfulColor.barChartText,
                 height: Dimens.p_15 / Dimens.p_12,
