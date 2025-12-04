@@ -29,4 +29,7 @@ class RouteConstant {
 
   // dashboard
   static const String dashboard = '/dashboard';
+
+  // settings
+  static const String settings = '/settings';
 }

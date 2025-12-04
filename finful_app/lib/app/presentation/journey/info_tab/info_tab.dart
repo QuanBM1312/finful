@@ -292,8 +292,8 @@ class _SectionItemLoading extends StatelessWidget {
   }
 }
 
-class DashboardNoneFinalPlanContent extends StatelessWidget {
-  const DashboardNoneFinalPlanContent({
+class InfoTab extends StatelessWidget {
+  const InfoTab({
     super.key,
     required this.sectionItems,
     required this.onStaticSchedulePressed,

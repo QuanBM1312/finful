@@ -93,6 +93,7 @@ class FinfulColor {
   static const Color progressBarBackground = Color(0xFF5C5B56);
   static const Color progressBarForeground = Color(_bluePrimaryValue);
   static const Color btnPrimary = Color(_bluePrimaryValue);
+  static const Color textSetting = Color(0XFFBEBEBE);
 
   // slider
   static const Color sliderActiveTrack = brandPrimary;
@@ -117,4 +118,9 @@ class FinfulColor {
   static final Color barChartDot = white.withValues(alpha: 0.3);
   static const Color barChartContentBorrow = Color(0xFFFFC344);
   static final Color barChartText = white.withValues(alpha: 0.8);
+
+  // app bottom tab bar
+  static final Color tabBarElevationColor = white.withValues(alpha: 0.3);
+  static const Color tabBarActiveColor = white;
+  static final Color tabBarInactiveColor = white.withValues(alpha: 0.5);
 }

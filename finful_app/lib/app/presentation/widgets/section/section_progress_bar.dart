@@ -6,12 +6,16 @@ class SectionProgressBar extends StatelessWidget {
   final int current;
   final int total;
   final double height;
+  final BorderRadius? borderRadius;
+  final Color? foregroundColor;
 
   const SectionProgressBar({
     super.key,
     required this.current,
     required this.total,
     this.height = Dimens.p_6,
+    this.borderRadius,
+    this.foregroundColor,
   });
 
   @override
@@ -19,7 +23,7 @@ class SectionProgressBar extends StatelessWidget {
     final double progress = (current / total).clamp(0.0, 1.0);
 
     return ClipRRect(
-      borderRadius: BorderRadius.zero,
+      borderRadius: borderRadius ?? BorderRadius.zero,
       child: SizedBox(
         height: height,
         child: Stack(
@@ -35,7 +39,7 @@ class SectionProgressBar extends StatelessWidget {
               alignment: Alignment.centerLeft,
               widthFactor: progress,
               child: Container(
-                color: FinfulColor.progressBarForeground,
+                color: foregroundColor ?? FinfulColor.progressBarForeground,
               ),
             ),
           ],

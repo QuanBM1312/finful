@@ -46,6 +46,8 @@ class SectionInteractorImpl implements SectionInteractor {
     final result = await _sectionRepository.submitOnboardingCalculate(
       request: answerRequest,
     );
+
+    await Future.delayed(const Duration(seconds: 2));
     return result;
   }
 

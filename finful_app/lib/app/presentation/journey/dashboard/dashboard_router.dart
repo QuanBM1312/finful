@@ -1,4 +1,5 @@
 import 'package:finful_app/app/constants/route.dart';
+import 'package:finful_app/app/presentation/journey/account_tab/settings/settings_router.dart';
 import 'package:finful_app/app/presentation/journey/authentication/sign_in_router.dart';
 import 'package:finful_app/app/presentation/journey/section/assumptions/section_assumptions_router.dart';
 import 'package:finful_app/app/presentation/journey/section/family_support/section_family_support_router.dart';
@@ -25,6 +26,8 @@ abstract interface class IDashboardRouter {
   });
 
   void replaceWithSignIn();
+
+  void gotoSettings();
 }
 
 class DashboardRouter extends BaseRouter implements IDashboardRouter {
@@ -67,6 +70,12 @@ class DashboardRouter extends BaseRouter implements IDashboardRouter {
     final router = SectionOnboardingRouter(
         entryFrom: SectionOnboardingEntryFrom.dashboard,
     );
+    router.start();
+  }
+
+  @override
+  void gotoSettings() {
+    final router = SettingsRouter();
     router.start();
   }
 
