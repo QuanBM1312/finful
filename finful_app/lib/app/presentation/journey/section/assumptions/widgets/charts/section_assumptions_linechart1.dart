@@ -58,10 +58,11 @@ class SectionAssumptionsLineChart1 extends StatefulWidget {
   const SectionAssumptionsLineChart1({
     super.key,
     required this.spots,
-
+    required this.title,
   });
 
   final List<FlSpot> spots;
+  final String title;
 
   @override
   State<SectionAssumptionsLineChart1> createState() => _SectionAssumptionsLineChart1State();
@@ -341,8 +342,7 @@ class _SectionAssumptionsLineChart1State extends State<SectionAssumptionsLineCha
               ),
               const SizedBox(width: Dimens.p_4),
               Text(
-                L10n.of(context)
-                    .translate('section_chart_dot_salary_label'),
+                widget.title,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: FinfulColor.lineChartText,
                   height: Dimens.p_15 / Dimens.p_12,

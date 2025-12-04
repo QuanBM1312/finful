@@ -156,6 +156,9 @@ class _SectionOnboardingQAScreenState extends State<SectionOnboardingQAScreen>
   }
 
   Future<void> _onBackPressed() async {
+    setState(() {
+      _showEducationView = false;
+    });
     final state = getOnboardingState;
     if (state.sectionOnboardings.isEmpty) {
       router.pop();
@@ -176,9 +179,6 @@ class _SectionOnboardingQAScreenState extends State<SectionOnboardingQAScreen>
       BlocConstants.sectionOnboarding,
       OnboardingGetPreviousStepStarted(),
     );
-    setState(() {
-      _showEducationView = false;
-    });
   }
 
   void _processSubmitCalculate() {

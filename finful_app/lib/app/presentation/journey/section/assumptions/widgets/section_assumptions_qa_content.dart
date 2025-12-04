@@ -13,6 +13,7 @@ import 'package:finful_app/app/theme/colors.dart';
 import 'package:finful_app/app/theme/dimens.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
 import 'package:finful_app/core/extension/extension.dart';
+import 'package:finful_app/core/localization/l10n.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,13 +40,27 @@ class SectionAssumptionsQAContent extends StatelessWidget {
     return diff.toInt();
   }
 
-  List<FlSpot> get allSpots => const [
-    FlSpot(0, 38000000),  // năm ngoái
-    FlSpot(1, 40000000),  // năm nay
-    FlSpot(2, 42800000),  // +1
-    FlSpot(3, 45500000),  // +2
-    FlSpot(4, 49000000),  // +3
-  ];
+  List<FlSpot> allSpots(bool isSalary) {
+    final double dummy = isSalary ? 30000000 : 3000000000;
+    final double rate = sliderValueSelected / 100;  // phần trăm → tỷ lệ (0.02 cho 2%)
+    // Năm hiện tại = dummy * (1 + rate)^0 = dummy
+    // Năm ngoái = dummy / (1 + rate) nếu rate > 0, hoặc dummy nếu rate = 0
+    // +1 = dummy * (1 + rate)
+    // +2 = dummy * (1 + rate)^2
+    // +3 = dummy * (1 + rate)^3
+    final double yearMinus1 = rate == 0 ? dummy : dummy / (1 + rate);
+    final double year0 = dummy;
+    final double yearPlus1 = dummy * (1 + rate);
+    final double yearPlus2 = yearPlus1 * (1 + rate);
+    final double yearPlus3 = yearPlus2 * (1 + rate);
+    return [
+      FlSpot(0, yearMinus1),  // năm ngoái
+      FlSpot(1, year0),       // năm nay
+      FlSpot(2, yearPlus1),   // +1
+      FlSpot(3, yearPlus2),   // +2
+      FlSpot(4, yearPlus3),   // +3
+    ];
+  }
 
   Widget _renderSliderContent(BuildContext context, SectionModel data) {
     final questionTxt = data.section.payload?.label ?? "";
@@ -53,8 +68,16 @@ class SectionAssumptionsQAContent extends StatelessWidget {
         <SectionPayloadExplanationResponse>[];
     final minValue = data.section.payload?.min ?? 0;
     final maxValue = data.section.payload?.max ?? 100;
+    final chartDataKey = data.section.payload?.chartDataKey;
+    final isSalary = chartDataKey == "pctSalaryGrowth";
+    final isHousePrice = chartDataKey == "pctHouseGrowth";
+    final showLineChart = isSalary || isHousePrice;
+    final showBarChart = chartDataKey == "pctInvestmentReturn";
     final divisionsValue = getDivisions(
         minValue.toDouble(), maxValue.toDouble());
+    final chartLegendTitle = !isSalary ?
+    L10n.of(context).translate('section_chart_dot_housePrice_label') :
+    L10n.of(context).translate('section_chart_dot_salary_label');
 
     return Container(
       color: Colors.transparent,
@@ -107,11 +130,12 @@ class SectionAssumptionsQAContent extends StatelessWidget {
             ],
           ),
           const SizedBox(height: Dimens.p_34),
-          // todo: chart
-          // SectionAssumptionsLineChart1(
-          //   spots: allSpots,
-          // ),
-          SectionAssumptionsBarchart1(),
+          if (showLineChart) SectionAssumptionsLineChart1(
+            spots: allSpots(isSalary),
+            title: chartLegendTitle,
+          ) else const SizedBox(),
+          if (showBarChart) SectionAssumptionsBarchart1()
+          else const SizedBox(),
           const SizedBox(height: Dimens.p_40),
           if (listExplanations.isNotEmpty)
             Column(
