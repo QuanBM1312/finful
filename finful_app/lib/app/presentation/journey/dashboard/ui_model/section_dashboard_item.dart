@@ -1,4 +1,3 @@
-
 import 'package:finful_app/app/data/enum/section.dart';
 
 class SectionDashboardItem {

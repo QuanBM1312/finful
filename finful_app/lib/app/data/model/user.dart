@@ -6,12 +6,14 @@ class User extends BaseEntity {
   final String? email;
   final String? firstName;
   final String? lastName;
+  final String? imageUrl;
 
   User({
     required this.userId,
     required this.email,
     required this.firstName,
-    required this.lastName
+    required this.lastName,
+    this.imageUrl,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class User extends BaseEntity {
       email: json['email'] ?? kString,
       firstName: json['firstName'] ?? kString,
       lastName: json['lastName'] ?? kString,
+      imageUrl: json['imageUrl'] ?? kString,
     );
   }
 
@@ -28,7 +31,8 @@ class User extends BaseEntity {
     userId,
     email,
     firstName,
-    lastName
+    lastName,
+    imageUrl,
   ];
 
   @override
@@ -37,5 +41,6 @@ class User extends BaseEntity {
     'email': email,
     'firstName': firstName,
     'lastName': lastName,
+    'imageUrl': imageUrl,
   };
 }

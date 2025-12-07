@@ -16,4 +16,8 @@ class IconConstants {
   // apple
   static const String icApple = 'assets/icons/ic_apple.svg';
 
+  // tab bar
+  static const String icAccountTabBar = 'assets/icons/ic_account_tabbar.svg';
+  static const String icInfoTabBar = 'assets/icons/ic_info_tabbar.svg';
+  static const String icPlanTabBar = 'assets/icons/ic_plan_tabbar.svg';
 }

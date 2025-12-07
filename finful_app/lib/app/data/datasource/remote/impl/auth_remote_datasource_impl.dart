@@ -1,4 +1,3 @@
-
 import 'package:finful_app/app/data/datasource/remote/auth_remote_datasource.dart';
 import 'package:finful_app/app/data/model/response/logout_response.dart';
 import 'package:finful_app/app/data/model/response/signin_response.dart';
@@ -21,7 +20,7 @@ class AuthRemoteDatasourceImpl extends BaseRemote implements AuthRemoteDatasourc
   Future<LogoutResponse> postLogout() async {
     final url = '$_host/auth/logout';
     final json =
-        await post(url, ApiHeaderType.withoutToken);
+        await post(url, ApiHeaderType.withToken);
     return LogoutResponse.fromJson(json);
   }
 
@@ -40,6 +39,5 @@ class AuthRemoteDatasourceImpl extends BaseRemote implements AuthRemoteDatasourc
         await post(url, ApiHeaderType.withoutToken, data: request.toJson());
     return SignUpResponse.fromJson(json);
   }
-
   
 }

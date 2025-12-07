@@ -30,6 +30,9 @@ class BlocConstants {
 
   // education
   static const Key getEducation = Key('get_education_bloc');
+
+  // tab bar
+  static const Key accountTabBar = Key('account_tab_bar_bloc');
 }
 
 class BlocBroadcastEventConstants {

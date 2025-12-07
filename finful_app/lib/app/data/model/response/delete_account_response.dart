@@ -1,16 +1,16 @@
 import 'package:finful_app/core/constant/model_constant.dart';
 
-class LogoutResponse {
+class DeleteAccountResponse {
   final bool? success;
   final String? message;
 
-  LogoutResponse({
+  DeleteAccountResponse({
     this.success,
     this.message,
   });
 
-  factory LogoutResponse.fromJson(Map<String, dynamic> json) {
-    return LogoutResponse(
+  factory DeleteAccountResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteAccountResponse(
       success: json['success'] ?? false,
       message: json['message'] ?? kString,
     );

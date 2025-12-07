@@ -89,7 +89,6 @@ class _SignInScreenState extends State<SignInScreen>
 
   void _processAutoSubmitLogin() {
     if (isAutoLogin) {
-      showAppLoading();
       _emailController.text = router.email!;
       _passwordController.text = router.password!;
       _onSubmitPressed();
@@ -275,7 +274,7 @@ class _SignInScreenState extends State<SignInScreen>
                                 keyboardType: TextInputType.emailAddress,
                                 textInputAction: TextInputAction.go,
                                 prefixIcon: AppSvgIcon(
-                                  IconConstants.icGoogle,
+                                  IconConstants.icEmail,
                                   width: Dimens.p_20,
                                   height: Dimens.p_20,
                                 ),
@@ -289,7 +288,7 @@ class _SignInScreenState extends State<SignInScreen>
                                 obscureText: _obscurePassword,
                                 textInputAction: TextInputAction.done,
                                 prefixIcon: AppSvgIcon(
-                                  IconConstants.icGoogle,
+                                  IconConstants.icPassword,
                                   width: Dimens.p_20,
                                   height: Dimens.p_20,
                                 ),
@@ -300,7 +299,8 @@ class _SignInScreenState extends State<SignInScreen>
                                   child: InkWell(
                                     onTap: _togglePassword,
                                     child: AppSvgIcon(
-                                      IconConstants.icGoogle,
+                                      _obscurePassword ?
+                                      IconConstants.icEyeOff : IconConstants.icEyeOn,
                                       width: Dimens.p_20,
                                       height: Dimens.p_20,
                                     ),
@@ -433,7 +433,7 @@ class _SignInScreenState extends State<SignInScreen>
                                     right: Dimens.p_10,
                                   ),
                                   child: AppSvgIcon(
-                                    IconConstants.icGoogle,
+                                    IconConstants.icApple,
                                     width: Dimens.p_18,
                                     height: Dimens.p_18,
                                   ),
@@ -480,7 +480,9 @@ class _SignInScreenState extends State<SignInScreen>
                                   ),
                                 ),
                               ),
-                              SizedBox(height: Dimens.p_26 + context.queryPaddingBottom),
+                              SizedBox(
+                                height: Dimens.p_26 + context.queryPaddingBottom,
+                              ),
                             ],
                           ),
                         ),

@@ -4,6 +4,7 @@ import 'package:finful_app/app/domain/interactor/auth_interactor.dart';
 import 'package:finful_app/app/domain/interactor/session_interactor.dart';
 import 'package:finful_app/app/domain/interactor/user_interactor.dart';
 import 'package:finful_app/app/injection/injection.dart';
+import 'package:finful_app/app/presentation/blocs/common/show_message/show_message_event.dart';
 import 'package:finful_app/app/presentation/blocs/mixins/loader_bloc_mixin.dart';
 import 'package:finful_app/app/presentation/blocs/mixins/session_bloc_mixin.dart';
 import 'package:finful_app/app/presentation/blocs/mixins/show_message_mixin.dart';
@@ -113,9 +114,19 @@ class SessionBloc extends BaseBloc<SessionEvent, SessionState>
         await _sessionInteractor.clearSessionDataAtLocal();
         emit(SessionSignOutSuccess());
       } else {
+        showSnackBarMessage(
+          type: ShowMessageSnackBarType.error,
+          title: 'common_error_logout_failed',
+          message: 'common_error_logout_failed_message',
+        );
         emit(SessionSignOutFailure(state));
       }
     } catch (err) {
+      showSnackBarMessage(
+        type: ShowMessageSnackBarType.error,
+        title: 'common_error_logout_failed',
+        message: 'common_error_logout_failed_message',
+      );
       emit(SessionSignOutFailure(state));
     }
   }

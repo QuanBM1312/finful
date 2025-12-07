@@ -77,6 +77,8 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   void didMountWidget() {
     _startGetCurrentPlan();
+
+    _ensureGetLatestPlanData();
     super.didMountWidget();
   }
 
@@ -84,6 +86,12 @@ class _DashboardScreenState extends State<DashboardScreen>
   void didResume() {
     super.didResume();
     _startGetCurrentPlan();
+  }
+
+  void _ensureGetLatestPlanData() {
+    Future.delayed(const Duration(seconds: 3), () {
+      _startGetCurrentPlan();
+    });
   }
 
   void _startGetCurrentPlan() {
@@ -230,18 +238,18 @@ class _DashboardScreenState extends State<DashboardScreen>
   List<DashboardTabBarItem> _tabBarItems() {
     return [
       DashboardTabBarItem(
-        assetPath: IconConstants.icGoogle,
-        activeAssetPath: IconConstants.icGoogle,
+        assetPath: IconConstants.icInfoTabBar,
+        activeAssetPath: IconConstants.icInfoTabBar,
         label: L10n.of(context).translate('dashboard_info_tab'),
       ),
       // DashboardTabBarItem(
-      //   assetPath: IconConstants.icGoogle,
-      //   activeAssetPath: IconConstants.icGoogle,
+      //   assetPath: IconConstants.icPlanTabBar,
+      //   activeAssetPath: IconConstants.icPlanTabBar,
       //   label: L10n.of(context).translate('dashboard_plan_tab'),
       // ),
       DashboardTabBarItem(
-        assetPath: IconConstants.icGoogle,
-        activeAssetPath: IconConstants.icGoogle,
+        assetPath: IconConstants.icAccountTabBar,
+        activeAssetPath: IconConstants.icAccountTabBar,
         label: L10n.of(context).translate('dashboard_account_tab'),
       ),
     ];
@@ -262,53 +270,49 @@ class _DashboardScreenState extends State<DashboardScreen>
       ],
       child: MultiBlocListener(
         listeners: _mapToBlocListeners,
-        child: SafeArea(
-          top: false,
-            bottom: false,
-            child: Scaffold(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              resizeToAvoidBottomInset: true,
-              drawerEdgeDragWidth: 0.0,
-              endDrawerEnableOpenDragGesture: false,
-              drawerEnableOpenDragGesture: false,
-              body: RefreshIndicator(
-                onRefresh: _onRefresh,
-                child: PageView(
-                  controller: _pageController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    InfoTab(
-                      sectionItems: _sectionItems,
-                      onSectionItemPressed: _onSectionItemPressed,
-                      onStaticSchedulePressed: _onStaticSchedulePressed,
-                    ),
-                    AccountTab(
-                      onSettingPressed: _onSettingPressed,
-                    ),
-                  ],
+        child: Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          resizeToAvoidBottomInset: true,
+          drawerEdgeDragWidth: 0.0,
+          endDrawerEnableOpenDragGesture: false,
+          drawerEnableOpenDragGesture: false,
+          body: RefreshIndicator(
+            onRefresh: _onRefresh,
+            child: PageView(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                InfoTab(
+                  sectionItems: _sectionItems,
+                  onSectionItemPressed: _onSectionItemPressed,
+                  onStaticSchedulePressed: _onStaticSchedulePressed,
                 ),
-              ),
-              bottomNavigationBar: AppBottomNavigationBar(
-                iconSize: FinfulDimens.iconMd,
-                selectedIndex: _currentTabIndex,
-                showElevation: true,
-                backgroundColor: FinfulColor.black12,
-                onItemSelected: (index) => setState(() {
-                  _currentTabIndex = index;
-                  _pageController.jumpToPage(index);
-                }),
-                items: tabBarItems
-                    .map(
-                      (item) => AppBottomNavBarItem.svg(
-                    assetPath: item.assetPath,
-                    activeAssetPath: item.activeAssetPath,
-                    title: item.label,
-                    activeColor: FinfulColor.tabBarActiveColor,
-                    inactiveColor: FinfulColor.tabBarInactiveColor,
-                  ),
-                ).toList(),
-              ),
+                AccountTab(
+                  onSettingPressed: _onSettingPressed,
+                ),
+              ],
             ),
+          ),
+          bottomNavigationBar: AppBottomNavigationBar(
+            iconSize: FinfulDimens.iconMd,
+            selectedIndex: _currentTabIndex,
+            showElevation: true,
+            backgroundColor: FinfulColor.black12,
+            onItemSelected: (index) => setState(() {
+              _currentTabIndex = index;
+              _pageController.jumpToPage(index);
+            }),
+            items: tabBarItems
+                .map(
+                  (item) => AppBottomNavBarItem.svg(
+                assetPath: item.assetPath,
+                activeAssetPath: item.activeAssetPath,
+                title: item.label,
+                activeColor: FinfulColor.tabBarActiveColor,
+                inactiveColor: FinfulColor.tabBarInactiveColor,
+              ),
+            ).toList(),
+          ),
         ),
       ),
     );

@@ -180,6 +180,11 @@ class _ItemWidgetState extends State<_ItemWidget> {
                         ? widget.item.activeAssetPath ?? widget.item.assetPath
                         : widget.item.assetPath,
                     fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                      widget.isSelected
+                        ? widget.item.activeColor!
+                        : widget.item.inactiveColor!,
+                      BlendMode.srcIn),
                   ),
                 ),
               const SizedBox(

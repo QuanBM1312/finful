@@ -309,10 +309,9 @@ class _SignUpScreenState extends State<SignUpScreen>
                                           .translate('signup_firstname_hint'),
                                       keyboardType: TextInputType.text,
                                       textInputAction: TextInputAction.go,
-                                      prefixIcon: AppSvgIcon(
-                                        IconConstants.icGoogle,
-                                        width: Dimens.p_20,
-                                        height: Dimens.p_20,
+                                      prefixIcon: Icon(
+                                        Icons.text_fields,
+                                        size: Dimens.p_20,
                                       ),
                                       validator: _onFirstnameValidator,
                                     ),
@@ -328,10 +327,9 @@ class _SignUpScreenState extends State<SignUpScreen>
                                           .translate('signup_lastname_hint'),
                                       keyboardType: TextInputType.text,
                                       textInputAction: TextInputAction.go,
-                                      prefixIcon: AppSvgIcon(
-                                        IconConstants.icGoogle,
-                                        width: Dimens.p_20,
-                                        height: Dimens.p_20,
+                                      prefixIcon: Icon(
+                                        Icons.text_fields,
+                                        size: Dimens.p_20,
                                       ),
                                       validator: _onLastnameValidator,
                                     ),
@@ -349,7 +347,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                                 keyboardType: TextInputType.emailAddress,
                                 textInputAction: TextInputAction.go,
                                 prefixIcon: AppSvgIcon(
-                                  IconConstants.icGoogle,
+                                  IconConstants.icEmail,
                                   width: Dimens.p_20,
                                   height: Dimens.p_20,
                                 ),
@@ -364,7 +362,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                                 obscureText: _obscurePassword,
                                 textInputAction: TextInputAction.go,
                                 prefixIcon: AppSvgIcon(
-                                  IconConstants.icGoogle,
+                                  IconConstants.icPassword,
                                   width: Dimens.p_20,
                                   height: Dimens.p_20,
                                 ),
@@ -375,7 +373,8 @@ class _SignUpScreenState extends State<SignUpScreen>
                                   child: InkWell(
                                     onTap: _togglePassword,
                                     child: AppSvgIcon(
-                                      IconConstants.icGoogle,
+                                      _obscurePassword ?
+                                      IconConstants.icEyeOff : IconConstants.icEyeOn,
                                       width: Dimens.p_20,
                                       height: Dimens.p_20,
                                     ),
@@ -395,7 +394,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                                 obscureText: _obscurePasswordConfirm,
                                 textInputAction: TextInputAction.done,
                                 prefixIcon: AppSvgIcon(
-                                  IconConstants.icGoogle,
+                                  IconConstants.icPassword,
                                   width: Dimens.p_20,
                                   height: Dimens.p_20,
                                 ),
@@ -406,7 +405,8 @@ class _SignUpScreenState extends State<SignUpScreen>
                                   child: InkWell(
                                     onTap: _togglePasswordConfirm,
                                     child: AppSvgIcon(
-                                      IconConstants.icGoogle,
+                                      _obscurePasswordConfirm ?
+                                      IconConstants.icEyeOff : IconConstants.icEyeOn,
                                       width: Dimens.p_20,
                                       height: Dimens.p_20,
                                     ),
@@ -516,7 +516,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                                     right: Dimens.p_10,
                                   ),
                                   child: AppSvgIcon(
-                                    IconConstants.icGoogle,
+                                    IconConstants.icApple,
                                     width: Dimens.p_18,
                                     height: Dimens.p_18,
                                   ),

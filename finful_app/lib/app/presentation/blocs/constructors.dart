@@ -4,6 +4,7 @@ import 'package:finful_app/app/domain/interactor/section_interactor.dart';
 import 'package:finful_app/app/domain/interactor/session_interactor.dart';
 import 'package:finful_app/app/domain/interactor/user_interactor.dart';
 import 'package:finful_app/app/injection/injection.dart';
+import 'package:finful_app/app/presentation/blocs/account_tab/account_tab_bloc.dart';
 import 'package:flutter/foundation.dart';
 
 import 'common/connectivity/connectivity_bloc.dart';
@@ -76,5 +77,9 @@ final Map<Type, Object Function(Key key)> blocConstructors = {
   GetEducationBloc: (Key key) => GetEducationBloc(
     key,
     sectionInteractor: Injection().getIt<SectionInteractor>(),
+  ),
+  AccountTabBloc: (Key key) => AccountTabBloc(
+    key,
+    userInteractor: Injection().getIt<UserInteractor>(),
   ),
 };

@@ -20,6 +20,8 @@
   "common_cta_back_dashboard_btn": "Về trang chủ",
   "common_cta_discovery_btn": "Khám phá ngay",
   "common_error_log_in_failed": "Đăng nhập thất bại",
+  "common_error_logout_failed": "Đăng xuất thất bại",
+  "common_error_logout_failed_message": "Đã có lỗi xảy ra!. Vui lòng thử lại",
   "common_error_something_went_wrong": "Đã có lỗi xảy ra!",
   "common_error_something_went_wrong_message": "Vui lòng thử lại sau.",
   "common_error_no_internet": "Không có kết nối mạng!",
@@ -169,5 +171,14 @@
   "account_tab_summary_title4": "Giá trị căn nhà:",
   "account_tab_summary_title5": "Số tiền cần tích luỹ:",
   "account_tab_summary_title6": "Số tiền cần đi vay:",
-  "setting_screen_header_title": "Cài đặt"
+  "setting_screen_header_title": "Cài đặt",
+  "setting_tile_info_header_label": "Thông tin cá nhân",
+  "setting_tile_info_header_name": "Tên hiển thị",
+  "setting_tile_info_header_username": "Username",
+  "setting_tile_general_header_label": "Thông tin chung",
+  "setting_tile_general_header_policy": "Chính sách bảo vệ dữ liệu cá nhân",
+  "setting_tile_general_header_term": "Điều khoản sử dụng",
+  "setting_tile_account_header_label": "Tài khoản",
+  "setting_tile_account_header_logout": "Đăng xuất",
+  "setting_tile_account_header_deleteAccount": "Xoá tài khoản"
 }

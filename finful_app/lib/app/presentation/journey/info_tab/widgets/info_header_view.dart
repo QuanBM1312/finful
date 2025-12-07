@@ -4,6 +4,7 @@ import 'package:finful_app/app/presentation/blocs/common/session/session_bloc.da
 import 'package:finful_app/app/presentation/blocs/common/session/session_state.dart';
 import 'package:finful_app/app/presentation/widgets/app_image/FinfulImage.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
+import 'package:finful_app/core/extension/string_extension.dart';
 import 'package:finful_app/core/localization/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,10 @@ class InfoHeaderView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SessionBloc, SessionState>(
       builder: (_, state) {
+        final imageUrl = state.loggedInUser?.imageUrl;
+        final avatar = imageUrl.isNotNullAndEmpty ?
+        imageUrl : ImageConstants.imgDefaultAvatar;
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -39,7 +44,7 @@ class InfoHeaderView extends StatelessWidget {
             const SizedBox(width: Dimens.p_40),
             FinfulImage(
               type: FinfulImageType.asset,
-              source: ImageConstants.imgDefaultCard,
+              source: avatar,
               borderRadius: BorderRadius.circular(Dimens.p_20),
               width: Dimens.p_40,
               height: Dimens.p_40,

@@ -1,12 +1,9 @@
+import 'package:finful_app/app/theme/colors.dart';
+import 'package:finful_app/app/theme/dimens.dart';
+import 'package:finful_app/common/constants/dimensions.dart';
 import 'package:finful_app/common/widgets/app_input/base_text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../../../../common/constants/dimensions.dart';
-import '../../../../common/widgets/app_icon/app_icon.dart';
-import '../../../constants/icons.dart';
-import '../../../theme/colors.dart';
-import '../../../theme/dimens.dart';
 
 final _kHintStyle = TextStyle(
   fontSize: FinfulDimens.textXs,
@@ -248,10 +245,9 @@ class FinfulTextInput extends BaseTextInput {
             padding: EdgeInsets.only(
               right: Dimens.p_16,
             ),
-            child: AppSvgIcon(
-              IconConstants.icInputClear,
-              width: FinfulDimens.iconMd,
-              height: FinfulDimens.iconMd,
+            child: Icon(
+              Icons.clear,
+              size: FinfulDimens.iconMd,
             ),
           ),
       onTap: onTap,

@@ -1,6 +1,7 @@
-
 import 'package:finful_app/app/data/datasource/local/user_local_datasource.dart';
 import 'package:finful_app/app/data/datasource/remote/user_remote_datasource.dart';
+import 'package:finful_app/app/data/model/response/delete_account_response.dart';
+import 'package:finful_app/app/data/model/response/user_extra_info_response.dart';
 import 'package:finful_app/app/data/model/user.dart';
 import 'package:finful_app/app/data/repository/user_repository.dart';
 
@@ -52,5 +53,14 @@ class UserRepositoryImpl implements UserRepository {
     await _userLocalDatasource.saveUser(user);
   }
 
-  
+  @override
+  Future<UserExtInfoResponse> getCurrentUserExtraInfo() async {
+    final response = await _userRemoteDatasource.getCurrentUserExtraInfo();
+    return response;
+  }
+
+  @override
+  Future<DeleteAccountResponse> deleteAccount() async {
+    return await _userRemoteDatasource.postDeleteAccount();
+  }
 }

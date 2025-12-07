@@ -1,6 +1,7 @@
 
 class ImageConstants {
   //common
+  static const String imgDefaultAvatar = 'assets/images/img_default_avatar.png';
   static const String imgDefaultCard = 'assets/images/img_default_avatar_0.png';
   static const String imgQuestionMark = 'assets/images/img_question_mark.png';
   static const String imgChecked = 'assets/images/img_checked.png';

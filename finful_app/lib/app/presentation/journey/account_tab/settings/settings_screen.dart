@@ -145,24 +145,31 @@ class _SettingTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.displaySmall!.copyWith(
-              color: FinfulColor.textSetting,
-              fontSize: Dimens.p_15,
-              height: Dimens.p_14 / Dimens.p_15,
+      borderRadius: BorderRadius.all(Radius.circular(Dimens.p_8)),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: Dimens.p_15,
+          horizontal: Dimens.p_10,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                color: FinfulColor.textSetting,
+                fontSize: Dimens.p_15,
+                height: Dimens.p_14 / Dimens.p_15,
+              ),
             ),
-          ),
-          if (showIcon)
-            Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: FinfulColor.white.withValues(alpha: 0.8),
-              size: Dimens.p_12,
-            ) else const SizedBox(),
-        ],
+            if (showIcon)
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: FinfulColor.white.withValues(alpha: 0.8),
+                size: Dimens.p_12,
+              ) else const SizedBox(),
+          ],
+        ),
       ),
     );
   }
@@ -234,14 +241,21 @@ class _SettingsScreenState extends State<SettingsScreen>
               top: Dimens.p_20,
             ),
             sliver: SliverToBoxAdapter(
-              child: Center(
-                child: FinfulImage(
-                  type: FinfulImageType.asset,
-                  source: ImageConstants.imgDefaultCard,
-                  borderRadius: BorderRadius.circular(Dimens.p_60),
-                  width: Dimens.p_120,
-                  height: Dimens.p_120,
-                ),
+              child: BlocBuilder<SessionBloc, SessionState>(
+                builder: (_, state) {
+                  final imageUrl = state.loggedInUser?.imageUrl;
+                  final avatar = imageUrl.isNotNullAndEmpty ?
+                  imageUrl : ImageConstants.imgDefaultAvatar;
+                  return Center(
+                    child: FinfulImage(
+                      type: FinfulImageType.asset,
+                      source: avatar,
+                      borderRadius: BorderRadius.circular(Dimens.p_60),
+                      width: Dimens.p_120,
+                      height: Dimens.p_120,
+                    ),
+                  );
+                },
               ),
             ),
           ),
@@ -255,11 +269,14 @@ class _SettingsScreenState extends State<SettingsScreen>
               child: BlocBuilder<SessionBloc, SessionState>(
                 builder: (_, state) {
                   final displayName = state.loggedInUser?.toFullName ?? "";
+                  final username = state.loggedInUser?.email ?? "";
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _ContentFormHeader(
-                        title: "Thông tin cá nhân",
+                        title: L10n.of(context)
+                            .translate('setting_tile_info_header_label'),
                       ),
                       const SizedBox(height: Dimens.p_15),
                       _ContentWrapper(
@@ -267,13 +284,15 @@ class _SettingsScreenState extends State<SettingsScreen>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             _ContentTile(
-                              label: "Tên hiển thị",
+                              label: L10n.of(context)
+                                  .translate('setting_tile_info_header_name'),
                               value: displayName,
                             ),
                             const SizedBox(height: Dimens.p_16),
                             _ContentTile(
-                              label: "Username",
-                              value: displayName,
+                              label: L10n.of(context)
+                                  .translate('setting_tile_info_header_username'),
+                              value: username,
                             ),
                           ],
                         ),
@@ -295,22 +314,32 @@ class _SettingsScreenState extends State<SettingsScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _ContentFormHeader(
-                    title: "Thông tin chung",
+                    title: L10n.of(context)
+                        .translate('setting_tile_general_header_label'),
                   ),
                   const SizedBox(height: Dimens.p_15),
-                  _ContentWrapper(
+                  Container(
+                    decoration: BoxDecoration(
+                      color: FinfulColor.cardBg,
+                      borderRadius: BorderRadius.all(Radius.circular(Dimens.p_8)),
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _SettingTile(
-                          title: "Chính sách bảo vệ dữ liệu cá nhân",
+                          title: L10n.of(context)
+                              .translate('setting_tile_general_header_policy'),
                           onPressed: _onPolicyPressed,
                         ),
-                        const SizedBox(height: Dimens.p_15),
-                        _Divider(),
-                        const SizedBox(height: Dimens.p_15),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Dimens.p_10,
+                          ),
+                          child: _Divider(),
+                        ),
                         _SettingTile(
-                          title: "Điều khoản sử dụng",
+                          title: L10n.of(context)
+                              .translate('setting_tile_general_header_term'),
                           onPressed: _onTermPressed,
                         ),
                       ],
@@ -331,23 +360,33 @@ class _SettingsScreenState extends State<SettingsScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _ContentFormHeader(
-                    title: "Tài khoản",
+                    title: L10n.of(context)
+                        .translate('setting_tile_account_header_label'),
                   ),
                   const SizedBox(height: Dimens.p_15),
-                  _ContentWrapper(
+                  Container(
+                    decoration: BoxDecoration(
+                      color: FinfulColor.cardBg,
+                      borderRadius: BorderRadius.all(Radius.circular(Dimens.p_8)),
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _SettingTile(
-                          title: "Đăng xuất",
+                          title: L10n.of(context)
+                              .translate('setting_tile_account_header_logout'),
                           showIcon: false,
                           onPressed: _onLogoutPressed,
                         ),
-                        const SizedBox(height: Dimens.p_15),
-                        _Divider(),
-                        const SizedBox(height: Dimens.p_15),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Dimens.p_10,
+                          ),
+                          child: _Divider(),
+                        ),
                         _SettingTile(
-                          title: "Xoá tài khoản",
+                          title: L10n.of(context)
+                              .translate('setting_tile_account_header_deleteAccount'),
                           showIcon: false,
                           onPressed: () {
 
