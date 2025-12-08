@@ -65,16 +65,16 @@ class _EducationContentViewState extends State<EducationContentView>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (widget.showDivider) Container(
-            decoration: BoxDecoration(
-              color: FinfulColor.divider,
-            ),
-            width: double.infinity,
-            height: Dimens.p_3,
-            margin: EdgeInsets.only(
-              bottom: Dimens.p_23,
-            ),
-          ) else const SizedBox(),
+          // if (widget.showDivider) Container(
+          //   decoration: BoxDecoration(
+          //     color: FinfulColor.divider,
+          //   ),
+          //   width: double.infinity,
+          //   height: Dimens.p_3,
+          //   margin: EdgeInsets.only(
+          //     bottom: Dimens.p_23,
+          //   ),
+          // ) else const SizedBox(),
           if (widget.title.isNotNullAndEmpty)
             Padding(
               padding: EdgeInsets.only(
@@ -109,7 +109,7 @@ class _EducationContentViewState extends State<EducationContentView>
                 fontWeight: FontWeight.w400,
               ),
             ) else const SizedBox(),
-          const SizedBox(height: Dimens.p_60),
+          const SizedBox(height: Dimens.p_30),
           if (widget.url.isNotNullAndEmpty)
             Lottie.network(
               widget.url!,
@@ -123,7 +123,6 @@ class _EducationContentViewState extends State<EducationContentView>
                   ..forward();
               },
             ) else const SizedBox(),
-          const SizedBox(height: Dimens.p_40),
           if (widget.isLast)
             BlocBuilder<OnboardingBloc, OnboardingState>(
               builder: (_, state) {

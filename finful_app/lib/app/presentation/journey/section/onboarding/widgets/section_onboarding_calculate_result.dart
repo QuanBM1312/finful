@@ -3,7 +3,6 @@ import 'package:finful_app/app/presentation/blocs/section/onboarding/onboarding.
 import 'package:finful_app/app/presentation/widgets/app_image/FinfulImage.dart';
 import 'package:finful_app/app/theme/theme.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
-import 'package:finful_app/core/extension/context_extension.dart';
 import 'package:finful_app/core/extension/extension.dart';
 import 'package:finful_app/core/localization/l10n.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +72,6 @@ class _PossibleView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: Dimens.p_46),
           Text(
             _titleTxt(context),
             style: Theme.of(context).textTheme.displaySmall!.copyWith(
@@ -105,6 +103,9 @@ class _PossibleView extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
             textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: Dimens.p_104 + Dimens.p_12 + context.queryPaddingBottom,
           ),
         ],
       ),
@@ -163,7 +164,6 @@ class _Impossible1View extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: Dimens.p_46),
           Text(
             _titleTxt(context),
             style: Theme.of(context).textTheme.displaySmall!.copyWith(
@@ -204,6 +204,9 @@ class _Impossible1View extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
+          SizedBox(
+            height: Dimens.p_104 + Dimens.p_12 + context.queryPaddingBottom,
+          ),
         ],
       ),
     );
@@ -240,7 +243,6 @@ class _Impossible2View extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: Dimens.p_46),
           Text(
             _titleTxt(context),
             style: Theme.of(context).textTheme.displaySmall!.copyWith(
@@ -272,6 +274,9 @@ class _Impossible2View extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
             textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: Dimens.p_104 + Dimens.p_12 + context.queryPaddingBottom,
           ),
         ],
       ),

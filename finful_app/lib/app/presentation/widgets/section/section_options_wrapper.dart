@@ -54,6 +54,7 @@ class SectionOptionsWrapper extends StatelessWidget {
         reAnimateOnVisibility: false,
       ),
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: itemBuilder,
       itemCount: itemCount,
     );

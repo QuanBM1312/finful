@@ -551,7 +551,7 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
                     ),
                     SliverPadding(
                       padding: EdgeInsets.only(
-                        bottom: Dimens.p_64 * 3 + context.queryPaddingBottom,
+                        bottom: Dimens.p_64 * 6 + context.queryPaddingBottom,
                       ),
                       sliver: SliverToBoxAdapter(
                         child: SectionAssumptionsQAContent(

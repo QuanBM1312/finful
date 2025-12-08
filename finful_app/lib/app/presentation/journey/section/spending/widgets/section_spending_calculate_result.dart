@@ -62,7 +62,6 @@ class _ContentView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: Dimens.p_46),
           Text(
             title,
             style: Theme.of(context).textTheme.headlineMedium!.copyWith(
@@ -72,18 +71,24 @@ class _ContentView extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: Dimens.p_44),
+          const SizedBox(height: Dimens.p_6),
           FinfulImage(
             type: FinfulImageType.asset,
             source: image,
             width: Dimens.p_274,
             height: Dimens.p_254,
           ),
-          const SizedBox(height: Dimens.p_64),
+          const SizedBox(height: Dimens.p_6),
           Text(
             description,
             style: Theme.of(context).textTheme.displaySmall!,
             textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: Dimens.p_104 + Dimens.p_12 + context.queryPaddingBottom,
+          ),
+          SizedBox(
+            height: Dimens.p_104 + Dimens.p_12 + context.queryPaddingBottom,
           ),
         ],
       ),
@@ -130,7 +135,7 @@ class _SectionSpendingCalculateResultState extends State<SectionSpendingCalculat
         descTxt = L10n.of(context).translate("section_spending_result_case5_desc");
       default:
     }
-    finalTxt = "$descTxt $yearTxt";
+    finalTxt = "$descTxt$yearTxt";
 
     return finalTxt;
   }

@@ -417,6 +417,17 @@ class _SignUpScreenState extends State<SignUpScreen>
                                 keyboardType: TextInputType.text,
                                 validator: _onPasswordConfirmValidator,
                               ),
+                              SizedBox(height: FinfulDimens.md),
+                              SizedBox(
+                                width: double.infinity,
+                                child: Text(
+                                  "Mật khẩu phải nhiều hơn 8 ký tự, bao gồm cả chữ và số",
+                                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    height: Dimens.p_14 / Dimens.p_12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
                               const SizedBox(height: Dimens.p_25),
                               BlocBuilder<SignUpBloc, SignUpState>(
                                   builder: (_, state) {
@@ -563,7 +574,9 @@ class _SignUpScreenState extends State<SignUpScreen>
                                   ),
                                 ),
                               ),
-                              SizedBox(height: Dimens.p_26 + context.queryPaddingBottom),
+                              SizedBox(
+                                height: Dimens.p_26 + context.queryPaddingBottom,
+                              ),
                             ],
                           ),
                         ),

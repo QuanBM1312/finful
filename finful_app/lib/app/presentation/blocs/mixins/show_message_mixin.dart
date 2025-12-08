@@ -41,14 +41,25 @@ mixin ShowMessageBlocMixin {
         message = 'common_error_not_found_message';
         break;
       case ServerErrorException: // 500
+        final errorCast = error as ServerErrorException;
+        final errorMap = errorCast.error as Map<String, dynamic>?;
+        final finalMessage = errorMap != null
+            ? errorMap['error'] : 'common_error_server_error_message';
         title = 'common_error_server_error';
-        message = 'common_error_server_error_message';
+        message = finalMessage;
         break;
       case SocketException:
         title = 'common_error_no_internet';
         message = 'common_error_no_internet_message';
         break;
       case BadRequestException: //400
+        final errorCast = error as BadRequestException;
+        final errorMap = errorCast.error as Map<String, dynamic>?;
+        final finalMessage = errorMap != null
+            ? errorMap['error'] : 'common_error_something_went_wrong_message';
+        title = 'common_error_unauthorized';
+        message = finalMessage;
+        break;
       case ForbiddenException: //403
       case InvalidInputException:
       case InvalidResponseException:

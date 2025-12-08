@@ -169,6 +169,11 @@ class _ContentView extends StatelessWidget {
             height: Dimens.p_104 + Dimens.p_12 + context.queryPaddingBottom,
           ),
         ),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: Dimens.p_104 + Dimens.p_12 + context.queryPaddingBottom,
+          ),
+        ),
       ],
     );
   }

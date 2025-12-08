@@ -57,7 +57,7 @@ class _EducationViewState extends State<EducationView>
 
           return SizedBox(
             width: double.infinity,
-            height: context.queryHeight,
+            height: context.queryHeight * 1.3,
             child: PageView(
               controller: _pageController,
               onPageChanged: (page) {

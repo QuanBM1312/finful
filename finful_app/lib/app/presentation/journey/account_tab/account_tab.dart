@@ -209,6 +209,17 @@ class _AccountTabState extends State<AccountTab>
                           builder: (_, state) {
                             final timeBuyHouse = state.loggedInUserExtraInfo?.plan?.time ?? "";
                             final bdsType = state.loggedInUserExtraInfo?.plan?.type ?? "";
+                            const chungcu = "Chung cư";
+                            const nhadat = "Nhà đất";
+                            const datnen = "Đất nền";
+                            String bdsTypeTxt = bdsType;
+                            if (bdsType == "CHUNG_CU") {
+                              bdsTypeTxt = chungcu;
+                            } else if (bdsType == "NHA_DAT") {
+                              bdsTypeTxt = nhadat;
+                            }  else if (bdsType == "DAT_NEN") {
+                              bdsTypeTxt = datnen;
+                            }
                             final bdsLocation = state.loggedInUserExtraInfo?.plan?.location ?? "";
                             final housePrice = state.loggedInUserExtraInfo?.housePrice ?? "";
                             final amountSaved = state.loggedInUserExtraInfo?.amountSaved ?? "";
@@ -225,7 +236,7 @@ class _AccountTabState extends State<AccountTab>
                                 AccountTabSummaryTile(
                                   label: L10n.of(context)
                                       .translate('account_tab_summary_title2'),
-                                  value: bdsType,
+                                  value: bdsTypeTxt,
                                 ),
                                 AccountTabDivider(),
                                 AccountTabSummaryTile(

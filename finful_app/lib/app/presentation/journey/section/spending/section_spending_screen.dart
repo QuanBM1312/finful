@@ -23,10 +23,10 @@ class _ContentView extends StatelessWidget {
 
   double getPaddingTop(BuildContext context) {
     if (showAppBar) {
-      return context.queryPaddingTop + Dimens.p_60;
+      return context.queryPaddingTop + Dimens.p_38;
     }
 
-    return context.queryPaddingTop + Dimens.p_100;
+    return context.queryPaddingTop + Dimens.p_78;
   }
 
   @override
@@ -91,6 +91,11 @@ class _ContentView extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: Dimens.p_64 + context.queryPaddingBottom,
           ),
         ),
         SliverToBoxAdapter(

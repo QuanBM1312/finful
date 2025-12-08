@@ -73,7 +73,7 @@ class InfoSectionItemView extends StatelessWidget {
                   child: Container(
                     color: Colors.transparent,
                     padding: EdgeInsets.symmetric(
-                      horizontal: Dimens.p_12,
+                      horizontal: Dimens.p_4,
                     ),
                     child: Center(
                       child: Column(
@@ -89,9 +89,12 @@ class InfoSectionItemView extends StatelessWidget {
                           Text(
                             content,
                             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                              height: Dimens.p_17/ Dimens.p_14,
+                              height: Dimens.p_17 / Dimens.p_14,
                               fontWeight: FontWeight.w600,
                             ),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                           const SizedBox(height: Dimens.p_18),
                           Container(
@@ -106,7 +109,7 @@ class InfoSectionItemView extends StatelessWidget {
                             ),
                             padding: EdgeInsets.symmetric(
                               vertical: Dimens.p_10,
-                              horizontal: Dimens.p_15,
+                              horizontal: Dimens.p_12,
                             ),
                             child: Text(
                               _statusTxt(context),
@@ -114,6 +117,9 @@ class InfoSectionItemView extends StatelessWidget {
                                 height: Dimens.p_14/ Dimens.p_12,
                                 fontWeight: FontWeight.w400,
                               ),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
                           ),
                         ],
