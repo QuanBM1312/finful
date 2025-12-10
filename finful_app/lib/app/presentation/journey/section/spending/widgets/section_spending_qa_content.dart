@@ -60,7 +60,6 @@ class SectionSpendingQAContent extends StatelessWidget {
   Widget _renderInputContent(BuildContext context, SectionModel data) {
     final questionTxt = data.section.payload?.text ?? "";
     final unit = data.section.payload?.unit ?? "";
-    String currencyValueTxt = "${inputController.text} $unit";
     final isBillion = unit.isBillion;
 
     return Container(
@@ -113,14 +112,6 @@ class SectionSpendingQAContent extends StatelessWidget {
             inputFormatter: sectionNumberInputFormatters,
             validator: (value) => _onNumberInputValidator(context, value),
             textInputAction: TextInputAction.done,
-          ),
-          const SizedBox(height: Dimens.p_4),
-          Text(
-            currencyValueTxt,
-            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-              fontWeight: FontWeight.w400,
-              height: Dimens.p_28 / Dimens.p_20,
-            ),
           ),
         ],
       ),
@@ -236,7 +227,9 @@ class SectionSpendingQAContent extends StatelessWidget {
               textAlign: TextAlignment.center,
             ),
           ),
-          SizedBox(height: Dimens.p_64 + context.queryPaddingBottom),
+          SizedBox(
+            height: Dimens.p_64 + context.queryPaddingBottom,
+          ),
         ],
       ),
     );

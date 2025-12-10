@@ -440,108 +440,108 @@ class _SignUpScreenState extends State<SignUpScreen>
                                     );
                                   }
                               ),
-                              const SizedBox(height: Dimens.p_25),
-                              SizedBox(
-                                width: double.infinity,
-                                height: Dimens.p_18,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: Dimens.p_1,
-                                        decoration: BoxDecoration(
-                                            color: FinfulColor.stroke,
-                                            border: Border.all(
-                                              color: FinfulColor.stroke,
-                                              width: Dimens.p_1,
-                                              style: BorderStyle.solid,
-                                            )
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: FinfulDimens.md
-                                      ),
-                                      child: Text(
-                                        'hoặc',
-                                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          color: FinfulColor.grey,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: Dimens.p_1,
-                                        decoration: BoxDecoration(
-                                            color: FinfulColor.white,
-                                            border: Border.all(
-                                              color: FinfulColor.stroke,
-                                              width: Dimens.p_1,
-                                              style: BorderStyle.solid,
-                                            )
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: Dimens.p_25),
-                              FinfulButton.border(
-                                title: L10n.of(context)
-                                    .translate('signin_google_btn'),
-                                borderColor: FinfulColor.btnBorderSocial,
-                                bgColor: FinfulColor.btnBgSocial,
-                                prefixIcon: Padding(
-                                  padding: EdgeInsets.only(
-                                    right: Dimens.p_10,
-                                  ),
-                                  child: AppSvgIcon(
-                                    IconConstants.icGoogle,
-                                    width: Dimens.p_18,
-                                    height: Dimens.p_18,
-                                  ),
-                                ),
-                                textStyle: TextStyle(
-                                  fontSize: Dimens.p_14,
-                                  height: Dimens.p_14 / Dimens.p_14,
-                                  fontWeight: FontWeight.w500,
-                                  color: FinfulColor.textW,
-                                ),
-                                onPressed: () {
-
-                                },
-                              ),
-                              const SizedBox(height: Dimens.p_15),
-                              FinfulButton.border(
-                                title: L10n.of(context)
-                                    .translate('signin_apple_btn'),
-                                borderColor: FinfulColor.btnBorderSocial,
-                                bgColor: FinfulColor.btnBgSocial,
-                                prefixIcon: Padding(
-                                  padding: EdgeInsets.only(
-                                    right: Dimens.p_10,
-                                  ),
-                                  child: AppSvgIcon(
-                                    IconConstants.icApple,
-                                    width: Dimens.p_18,
-                                    height: Dimens.p_18,
-                                  ),
-                                ),
-                                textStyle: TextStyle(
-                                  fontSize: Dimens.p_14,
-                                  height: Dimens.p_14 / Dimens.p_14,
-                                  fontWeight: FontWeight.w500,
-                                  color: FinfulColor.textW,
-                                ),
-                                onPressed: () {
-
-                                },
-                              ),
+                              // const SizedBox(height: Dimens.p_25),
+                              // SizedBox(
+                              //   width: double.infinity,
+                              //   height: Dimens.p_18,
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //     children: [
+                              //       Expanded(
+                              //         child: Container(
+                              //           width: double.infinity,
+                              //           height: Dimens.p_1,
+                              //           decoration: BoxDecoration(
+                              //               color: FinfulColor.stroke,
+                              //               border: Border.all(
+                              //                 color: FinfulColor.stroke,
+                              //                 width: Dimens.p_1,
+                              //                 style: BorderStyle.solid,
+                              //               )
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       Padding(
+                              //         padding: EdgeInsets.symmetric(
+                              //             horizontal: FinfulDimens.md
+                              //         ),
+                              //         child: Text(
+                              //           'hoặc',
+                              //           style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              //             fontWeight: FontWeight.w400,
+                              //             color: FinfulColor.grey,
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       Expanded(
+                              //         child: Container(
+                              //           width: double.infinity,
+                              //           height: Dimens.p_1,
+                              //           decoration: BoxDecoration(
+                              //               color: FinfulColor.white,
+                              //               border: Border.all(
+                              //                 color: FinfulColor.stroke,
+                              //                 width: Dimens.p_1,
+                              //                 style: BorderStyle.solid,
+                              //               )
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // const SizedBox(height: Dimens.p_25),
+                              // FinfulButton.border(
+                              //   title: L10n.of(context)
+                              //       .translate('signin_google_btn'),
+                              //   borderColor: FinfulColor.btnBorderSocial,
+                              //   bgColor: FinfulColor.btnBgSocial,
+                              //   prefixIcon: Padding(
+                              //     padding: EdgeInsets.only(
+                              //       right: Dimens.p_10,
+                              //     ),
+                              //     child: AppSvgIcon(
+                              //       IconConstants.icGoogle,
+                              //       width: Dimens.p_18,
+                              //       height: Dimens.p_18,
+                              //     ),
+                              //   ),
+                              //   textStyle: TextStyle(
+                              //     fontSize: Dimens.p_14,
+                              //     height: Dimens.p_14 / Dimens.p_14,
+                              //     fontWeight: FontWeight.w500,
+                              //     color: FinfulColor.textW,
+                              //   ),
+                              //   onPressed: () {
+                              //
+                              //   },
+                              // ),
+                              // const SizedBox(height: Dimens.p_15),
+                              // FinfulButton.border(
+                              //   title: L10n.of(context)
+                              //       .translate('signin_apple_btn'),
+                              //   borderColor: FinfulColor.btnBorderSocial,
+                              //   bgColor: FinfulColor.btnBgSocial,
+                              //   prefixIcon: Padding(
+                              //     padding: EdgeInsets.only(
+                              //       right: Dimens.p_10,
+                              //     ),
+                              //     child: AppSvgIcon(
+                              //       IconConstants.icApple,
+                              //       width: Dimens.p_18,
+                              //       height: Dimens.p_18,
+                              //     ),
+                              //   ),
+                              //   textStyle: TextStyle(
+                              //     fontSize: Dimens.p_14,
+                              //     height: Dimens.p_14 / Dimens.p_14,
+                              //     fontWeight: FontWeight.w500,
+                              //     color: FinfulColor.textW,
+                              //   ),
+                              //   onPressed: () {
+                              //
+                              //   },
+                              // ),
                               const SizedBox(height: Dimens.p_44),
                               InkWell(
                                 onTap: _onSignInPressed,

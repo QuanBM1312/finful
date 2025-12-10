@@ -215,11 +215,14 @@ class _AccountTabState extends State<AccountTab>
                             final bdsType = state.loggedInUserExtraInfo?.plan?.type ?? "";
                             const chungcu = "Chung cư";
                             const nhadat = "Nhà đất";
+                            const another = "Khác";
                             String bdsTypeTxt = bdsType;
                             if (bdsType == "CHUNG_CU") {
                               bdsTypeTxt = chungcu;
                             } else if (bdsType == "NHA_DAT") {
                               bdsTypeTxt = nhadat;
+                            } else if (bdsType == "KHAC") {
+                              bdsTypeTxt = another;
                             }
                             final bdsLocation = state.loggedInUserExtraInfo?.plan?.location ?? "";
                             const hanoi = "Hà Nội";
@@ -229,10 +232,12 @@ class _AccountTabState extends State<AccountTab>
                               bdsLocationTxt = hanoi;
                             } else if (bdsLocation == "HCMC") {
                               bdsLocationTxt = hcm;
+                            } else if (bdsLocation == "KHAC") {
+                              bdsLocationTxt = another;
                             }
-                            final housePrice = state.loggedInUserExtraInfo?.housePrice.tildeVnd ?? "";
-                            final amountSaved = state.loggedInUserExtraInfo?.amountSaved.tildeVnd ?? "";
-                            final loanAmount = state.loggedInUserExtraInfo?.loanAmount.tildeVnd ?? "";
+                            final housePrice = state.loggedInUserExtraInfo?.housePrice.toVietnamMoney ?? "";
+                            final amountSaved = state.loggedInUserExtraInfo?.amountSaved.toVietnamMoney ?? "";
+                            final loanAmount = state.loggedInUserExtraInfo?.loanAmount.toVietnamMoney ?? "";
 
                             return Column(
                               children: [

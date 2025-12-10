@@ -26,6 +26,17 @@ extension NumExtension on num {
     final formatter = NumberFormat.compactLong(locale: locale);
     return formatter.format(this);
   }
+}
+
+extension IntExtension on int? {
+  String toCountCharactersRemaining({
+    required int? maxLength,
+  }) =>
+      '${this ?? 0}/${maxLength ?? 0}';
+
+  bool get isNotNullAndPositive => this != null && this! > 0;
+
+  bool get isNotNullAndNegative => this != null && this! < 0;
 
   String toVietnameseWords() {
     const zeroLeftPadding = ['', '00', '0'];
@@ -51,21 +62,22 @@ extension NumExtension on num {
       'tỷ tỷ'
     ];
 
-    if (this == 0) {
+    if (this == 0 || this == null) {
       return 'Không';
     }
-    if (this < 0) {
-      return 'Âm ${(-this).toVietnameseWords()}';
+
+    if (this! < 0) {
+      return 'Âm ${(-this!).toVietnameseWords()}';
     }
 
     String readPair(int b, int c) {
       return b == 0
           ? c == 0
-              ? ''
-              : ' lẻ ${digits[c]}'
+          ? ''
+          : ' lẻ ${digits[c]}'
           : b == 1
-              ? 'mười ${c == 0 ? '' : c == 5 ? 'lăm' : digits[c]}'
-              : '${digits[b]} mươi ${c == 0 ? '' : c == 1 ? 'một' : c == 4 ? 'tư' : c == 5 ? 'lăm' : digits[c]}';
+          ? 'mười ${c == 0 ? '' : c == 5 ? 'lăm' : digits[c]}'
+          : '${digits[b]} mươi ${c == 0 ? '' : c == 1 ? 'một' : c == 4 ? 'tư' : c == 5 ? 'lăm' : digits[c]}';
     }
 
     String readTriple(List<String> triple, bool showZeroHundred) {
@@ -100,28 +112,17 @@ extension NumExtension on num {
     final showZeroHundred = shouldShowZeroHundred(groups);
     return groups
         .foldIndexed('', (index, previous, element) {
-          final triple = readTriple(element, showZeroHundred && index > 0);
-          final thousand = triple.isNotEmpty
-              ? multipleThousand[groups.length - 1 - index]
-              : '';
-          return '$previous $triple $thousand';
-        })
+      final triple = readTriple(element, showZeroHundred && index > 0);
+      final thousand = triple.isNotEmpty
+          ? multipleThousand[groups.length - 1 - index]
+          : '';
+      return '$previous $triple $thousand';
+    })
         .replaceAll(RegExp('\\s+'), ' ')
         .trim()
         .toLowerCase()
         .toCapitalized();
   }
-}
-
-extension IntExtension on int? {
-  String toCountCharactersRemaining({
-    required int? maxLength,
-  }) =>
-      '${this ?? 0}/${maxLength ?? 0}';
-
-  bool get isNotNullAndPositive => this != null && this! > 0;
-
-  bool get isNotNullAndNegative => this != null && this! < 0;
 }
 
 extension DoubleExtension on double {
@@ -136,56 +137,44 @@ extension DoubleExtension on double {
   }
 }
 
-extension MoneyFormat on double? {
-  String get vnd {
-    return (this ?? 0.0)._formatVND(includeTilde: false);
-  }
+extension MoneyFormatExt on double? {
+  String get toVietnamMoney {
+    final value = this;
 
-  /// Thêm dấu ~ ở đầu (rất hay dùng khi nhắn tin)
-  String get tildeVnd {
-    return (this ?? 0.0)._formatVND(includeTilde: true);
-  }
+    if (value == null) return '';
 
-  String _formatVND({required bool includeTilde}) {
-    double value = this ?? 0.0;
-    if (value == 0) return includeTilde ? "~0" : "0";
+    // 1) Làm tròn input trước: 3 chữ số thập phân
+    final roundedInput = double.parse(value.toStringAsFixed(2));
 
-    // Làm tròn đến 3 chữ số thập phân
-    double rounded = (value * 1000).round() / 1000;
-    bool isNegative = rounded < 0;
-    double abs = rounded.abs();
+    // 2) Nếu >= 1000 => hiển thị tỷ
+    if (roundedInput >= 1000) {
+      final inBillion = roundedInput / 1000.0;
+      // bắt đầu với 2 chữ số thập phân
+      String s = inBillion.toStringAsFixed(3).replaceAll('.', ',');
 
-    String sign = isNegative ? "-" : "";
-    String tilde = includeTilde ? "~" : "";
-
-    if (abs >= 1e9) {
-      // Từ 1 tỷ trở lên
-      double ty = (abs / 1e9 * 1000).round() / 1000;
-      double remainingMillion = ((abs % 1e9) / 1e6 * 1000).round() / 1000;
-
-      String tyPart = _cleanNumber(ty); // 5.124, 10, 1.005,...
-
-      if (remainingMillion < 1) {
-        // Dưới 1 triệu → không hiện phần triệu
-        return "$sign$tilde$tyPart tỷ";
-      } else {
-        // Có phần triệu → hiện "X tỷ YY triệu"
-        String millionPart = remainingMillion.toStringAsFixed(0).padLeft(2, '0');
-        return "$sign$tilde$tyPart tỷ $millionPart triệu";
+      // loại bỏ số 0 thừa ở cuối phần thập phân
+      if (s.contains(',')) {
+        // xóa các '0' ở cuối
+        while (s.endsWith('0')) {
+          s = s.substring(0, s.length - 1);
+        }
+        // nếu kết thúc bằng dấu phẩy thì loại luôn dấu phẩy
+        if (s.endsWith(',')) {
+          s = s.substring(0, s.length - 1);
+        }
       }
-    } else {
-      // Dưới 1 tỷ → hiển thị triệu
-      double trieu = (abs / 1e6 * 1000).round() / 1000;
-      String trieuPart = _cleanNumber(trieu);
-      return "$sign$tilde$trieuPart triệu";
-    }
-  }
 
-  /// Biến 5.120 → "5.12", 5.000 → "5", 5.500 → "5.5"
-  String _cleanNumber(double num) {
-    String str = num.toStringAsFixed(3);
-    str = str.replaceAll(RegExp(r'0+$'), ''); // xóa 0 thừa cuối
-    if (str.endsWith('.')) str = str.substring(0, str.length - 1); // xóa dấu . cuối
-    return str;
+      return '~$s tỷ VNĐ';
+    }
+
+    // 3) Nếu < 1000 => làm tròn đến số nguyên gần nhất (round)
+    final millionRounded = roundedInput.round();
+
+    // Nếu vòng lên đúng 1000 -> chuyển thành 1 tỷ
+    if (millionRounded >= 1000) {
+      return '~1 tỷ VNĐ';
+    }
+
+    return '~$millionRounded triệu VNĐ';
   }
 }

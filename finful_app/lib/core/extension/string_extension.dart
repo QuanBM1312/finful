@@ -1,7 +1,17 @@
-import '../regex/regex.dart';
+import 'package:finful_app/core/regex/regex.dart';
 import 'package:tiengviet/tiengviet.dart';
 
 extension StringExtension on String {
+  double formattedMoneyFromInput(bool isBillion) {
+    if (isEmpty) {
+      return 0.0;
+    }
+    final moneyInput = double.tryParse(this) ?? 0.0;
+    final formattedMoneyInputText = !isBillion ?
+    moneyInput * 1000000 : moneyInput * 1000000000;
+    return formattedMoneyInputText;
+  }
+
   // Chuẩn hóa cả dấu chấm và dấu phẩy thành định dạng parse được
   String get _normalized => replaceAll(',', '.'); // "4,5" → "4.5"
 

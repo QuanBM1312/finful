@@ -2,6 +2,7 @@ import 'package:finful_app/app/constants/key/BlocConstants.dart';
 import 'package:finful_app/app/domain/interactor/user_interactor.dart';
 import 'package:finful_app/app/presentation/blocs/account_tab/account_tab_event.dart';
 import 'package:finful_app/app/presentation/blocs/account_tab/account_tab_state.dart';
+import 'package:finful_app/app/presentation/blocs/common/show_message/show_message_event.dart';
 import 'package:finful_app/app/presentation/blocs/mixins/loader_bloc_mixin.dart';
 import 'package:finful_app/app/presentation/blocs/mixins/session_bloc_mixin.dart';
 import 'package:finful_app/app/presentation/blocs/mixins/show_message_mixin.dart';
@@ -57,6 +58,11 @@ class AccountTabBloc extends BaseBloc<AccountTabEvent, AccountTabState>
     try {
       final success = await _userInteractor.submitDeleteAccount();
       if (success) {
+        showSnackBarMessage(
+          type: ShowMessageSnackBarType.info,
+          title: 'delete_account_succeed',
+          message: 'delete_account_succeed_message',
+        );
         emit(AccountTabDeleteAccountSuccess());
         forceUserToLoginAfterLogoutOrDeleteAccountSucceed();
       }

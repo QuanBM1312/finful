@@ -4,7 +4,6 @@ import 'package:finful_app/core/logger/finful_logger_level.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'app/injection/injection.dart';
 import 'core/core.dart';
 

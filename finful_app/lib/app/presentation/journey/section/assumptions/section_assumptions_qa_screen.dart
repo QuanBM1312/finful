@@ -23,7 +23,6 @@ import 'package:finful_app/core/presentation/base_screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
-
 import 'widgets/section_assumptions_qa_content.dart';
 
 class SectionAssumptionsQAScreen extends StatefulWidget {
@@ -215,7 +214,8 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
   }
 
   Widget _buildButtonFormCaseDefault() {
-    return Padding(
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
       padding: EdgeInsets.symmetric(
         horizontal: FinfulDimens.md,
       ),
@@ -227,7 +227,9 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
                 .translate('common_cta_back_dashboard_btn'),
             onPressed: _onGoBackDashboardPressed,
           ),
-          const SizedBox(height: Dimens.p_18),
+          SizedBox(
+            height: Dimens.p_12 + context.queryPaddingBottom,
+          ),
         ],
       ),
     );
@@ -252,7 +254,8 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
       fontWeight: FontWeight.w600,
     );
 
-    return Padding(
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
       padding: EdgeInsets.symmetric(
         horizontal: FinfulDimens.md,
       ),
@@ -293,7 +296,9 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
 
             },
           ),
-          const SizedBox(height: Dimens.p_12),
+          SizedBox(
+            height: Dimens.p_12 + context.queryPaddingBottom,
+          ),
         ],
       ),
     );
@@ -312,7 +317,8 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
       fontWeight: FontWeight.w600,
     );
 
-    return Padding(
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
       padding: EdgeInsets.symmetric(
         horizontal: FinfulDimens.md,
       ),
@@ -354,7 +360,9 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
 
             },
           ),
-          const SizedBox(height: Dimens.p_12),
+          SizedBox(
+            height: Dimens.p_12 + context.queryPaddingBottom,
+          ),
         ],
       ),
     );
@@ -367,7 +375,8 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
     final prefixYearBtnTxt = L10n.of(context)
         .translate('section_assumptions_result_btn_form_btn_plan_case3');
     String yearBtn1Txt = defaultYearTxt;
-    return Padding(
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
       padding: EdgeInsets.symmetric(
         horizontal: FinfulDimens.md,
       ),
@@ -386,14 +395,17 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
 
             },
           ),
-          const SizedBox(height: Dimens.p_12),
+          SizedBox(
+            height: Dimens.p_12 + context.queryPaddingBottom,
+          ),
         ],
       ),
     );
   }
 
   Widget _buildButtonFormCase4() {
-    return Padding(
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
       padding: EdgeInsets.symmetric(
         horizontal: FinfulDimens.md,
       ),
@@ -413,7 +425,9 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
 
             },
           ),
-          const SizedBox(height: Dimens.p_12),
+          SizedBox(
+            height: Dimens.p_12 + context.queryPaddingBottom,
+          ),
         ],
       ),
     );
@@ -425,7 +439,8 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
       fontWeight: FontWeight.w600,
     );
 
-    return Padding(
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
       padding: EdgeInsets.symmetric(
         horizontal: FinfulDimens.md,
       ),
@@ -456,7 +471,9 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
               router.gotoScheduleRequest();
             },
           ),
-          const SizedBox(height: Dimens.p_12),
+          SizedBox(
+            height: Dimens.p_12 + context.queryPaddingBottom,
+          ),
         ],
       ),
     );

@@ -66,13 +66,19 @@ class UserExtInfoResponse {
         ? UserExtInfoUserResponse.fromJson(json['user']) : null;
     final plan = json['plan'] != null
         ? UserExtInfoPlanResponse.fromJson(json['plan']) : null;
+    final amountSaved = json['amountSaved'] != null
+        ? double.tryParse(json['amountSaved'].toString()) : kDouble;
+    final housePrice = json['housePrice'] != null
+        ? double.tryParse(json['housePrice'].toString()) : kDouble;
+    final loanAmount = json['loanAmount'] != null
+        ? double.tryParse(json['loanAmount'].toString()) : kDouble;
 
     return UserExtInfoResponse(
       user: user,
       plan: plan,
-      amountSaved: json['amountSaved'] ?? kDouble,
-      housePrice: json['housePrice'] ?? kDouble,
-      loanAmount: json['loanAmount'] ?? kDouble,
+      amountSaved: amountSaved,
+      housePrice: housePrice,
+      loanAmount: loanAmount,
     );
   }
 }
