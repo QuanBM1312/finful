@@ -86,11 +86,7 @@ class SectionAssumptionsQAContent extends StatelessWidget {
         chartDefaultValue = defaultValue;
       }
     } else {
-      if (showLineChart) {
-        chartDefaultValue = sliderValueSelected;
-      } else if (showBarChart) {
-        chartDefaultValue = sliderValueSelected;
-      }
+      chartDefaultValue = sliderValueSelected;
     }
 
     return Container(
