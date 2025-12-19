@@ -3,7 +3,7 @@ import 'package:finful_app/app/presentation/journey/dashboard/dashboard_router.d
 import 'package:finful_app/app/routes/app_routes.dart';
 import 'package:finful_app/core/presentation/base_router.dart';
 
-enum ReceivedRequestType { chatExpert, scheduleExpert }
+enum ReceivedRequestType { chatExpert, bookingExpert }
 
 abstract interface class IReceivedRequestRouter {
   void goBackDashboard();

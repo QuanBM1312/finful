@@ -33,6 +33,10 @@ class BlocConstants {
 
   // tab bar
   static const Key accountTabBar = Key('account_tab_bar_bloc');
+
+  // expert
+  static const Key requestBooking = Key('request_booking_bloc');
+  static const Key requestChat = Key('request_chat_bloc');
 }
 
 class BlocBroadcastEventConstants {

@@ -4,7 +4,9 @@ import 'package:finful_app/app/data/datasource/local/impl/auth_local_datasoure_i
 import 'package:finful_app/app/data/datasource/local/impl/user_local_datasource_impl.dart';
 import 'package:finful_app/app/data/datasource/local/user_local_datasource.dart';
 import 'package:finful_app/app/data/datasource/remote/auth_remote_datasource.dart';
+import 'package:finful_app/app/data/datasource/remote/expert_remote_datasource.dart';
 import 'package:finful_app/app/data/datasource/remote/impl/auth_remote_datasource_impl.dart';
+import 'package:finful_app/app/data/datasource/remote/impl/expert_remote_datasource_impl.dart';
 import 'package:finful_app/app/data/datasource/remote/impl/plan_remote_datasource_impl.dart';
 import 'package:finful_app/app/data/datasource/remote/impl/section_remote_datasource_impl.dart';
 import 'package:finful_app/app/data/datasource/remote/impl/user_remote_datasource_impl.dart';
@@ -12,11 +14,14 @@ import 'package:finful_app/app/data/datasource/remote/plan_remote_datasource.dar
 import 'package:finful_app/app/data/datasource/remote/section_remote_datasource.dart';
 import 'package:finful_app/app/data/datasource/remote/user_remote_datasource.dart';
 import 'package:finful_app/app/data/repository/auth_repository.dart';
+import 'package:finful_app/app/data/repository/expert_repository.dart';
 import 'package:finful_app/app/data/repository/plan_repository.dart';
 import 'package:finful_app/app/data/repository/section_repository.dart';
 import 'package:finful_app/app/data/repository/user_repository.dart';
 import 'package:finful_app/app/domain/interactor/auth_interactor.dart';
+import 'package:finful_app/app/domain/interactor/expert_interactor.dart';
 import 'package:finful_app/app/domain/interactor/impl/auth_interactor_impl.dart';
+import 'package:finful_app/app/domain/interactor/impl/expert_interactor_impl.dart';
 import 'package:finful_app/app/domain/interactor/impl/plan_interactor_impl.dart';
 import 'package:finful_app/app/domain/interactor/impl/section_interactor_impl.dart';
 import 'package:finful_app/app/domain/interactor/impl/session_interactor_impl.dart';
@@ -26,6 +31,7 @@ import 'package:finful_app/app/domain/interactor/section_interactor.dart';
 import 'package:finful_app/app/domain/interactor/session_interactor.dart';
 import 'package:finful_app/app/domain/interactor/user_interactor.dart';
 import 'package:finful_app/app/domain/repository_impl/auth_repository_impl.dart';
+import 'package:finful_app/app/domain/repository_impl/expert_repository_impl.dart';
 import 'package:finful_app/app/domain/repository_impl/plan_repository_impl.dart';
 import 'package:finful_app/app/domain/repository_impl/section_repository_impl.dart';
 import 'package:finful_app/app/domain/repository_impl/user_repository_impl.dart';
@@ -106,6 +112,14 @@ class Injection {
         getAuthorization: () => authorization,
       ),
     );
+
+    _getIt.registerSingleton<ExpertRemoteDatasource>(
+      ExpertRemoteDatasourceImpl(
+        host: getHost,
+        config: getHeaderConfig,
+        getAuthorization: () => authorization,
+      ),
+    );
     // ================    remote data source    ================
 
     // ================    local data source    ================
@@ -148,6 +162,12 @@ class Injection {
         planRemoteDatasource: _getIt<PlanRemoteDatasource>(),
       ),
     );
+
+    _getIt.registerFactory<ExpertRepository>(
+          () => ExpertRepositoryImpl(
+        expertRemoteDatasource: _getIt<ExpertRemoteDatasource>(),
+      ),
+    );
     // ================    repository    ================
 
     // ================    interactor    ================
@@ -180,6 +200,12 @@ class Injection {
     _getIt.registerFactory<PlanInteractor>(
           () => PlanInteractorImpl(
         planRepository: _getIt<PlanRepository>(),
+      ),
+    );
+
+    _getIt.registerFactory<ExpertInteractor>(
+          () => ExpertInteractorImpl(
+        expertRepository: _getIt<ExpertRepository>(),
       ),
     );
     // ================    interactor    ================

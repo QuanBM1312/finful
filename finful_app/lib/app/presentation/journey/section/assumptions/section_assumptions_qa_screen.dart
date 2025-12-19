@@ -167,10 +167,17 @@ class _SectionAssumptionsQAScreenState extends State<SectionAssumptionsQAScreen>
     final quesType = SectionQuestionTypeExt.fromValue(
         currentSection.section.payload?.questionType);
     if (quesType == SectionQuestionType.slider) {
-      final minValue = currentSection.section.payload?.min ?? 0;
-      setState(() {
-        _currentValue = minValue;
-      });
+      final minValue = currentSection.section.payload?.min;
+      final defaultValue = currentSection.section.payload?.defaultValue;
+      if (defaultValue != null) {
+        setState(() {
+          _currentValue = defaultValue;
+        });
+      } else if (minValue != null) {
+        setState(() {
+          _currentValue = minValue;
+        });
+      }
     } else if (quesType == SectionQuestionType.radio) {
       setState(() {
         _currentOption = null;

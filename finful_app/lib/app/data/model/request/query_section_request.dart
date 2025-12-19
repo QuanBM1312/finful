@@ -1,4 +1,3 @@
-
 import 'package:finful_app/core/entity/entity.dart';
 
 class SectionAnswerRequest {

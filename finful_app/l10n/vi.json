@@ -189,5 +189,6 @@
   "common_dialog_delete_account_left_btn": "QUAY LẠI",
   "common_dialog_delete_account_right_btn": "XÁC NHẬN",
   "delete_account_succeed": "Xóa tài khoản thành công",
-  "delete_account_succeed_message": ""
+  "delete_account_succeed_message": "",
+  "request_booking_input_empty": "Thông tin này không đuợc để trống"
 }

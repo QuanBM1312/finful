@@ -1,4 +1,5 @@
 import 'package:finful_app/app/domain/interactor/auth_interactor.dart';
+import 'package:finful_app/app/domain/interactor/expert_interactor.dart';
 import 'package:finful_app/app/domain/interactor/plan_interactor.dart';
 import 'package:finful_app/app/domain/interactor/section_interactor.dart';
 import 'package:finful_app/app/domain/interactor/session_interactor.dart';
@@ -15,6 +16,8 @@ import 'create_plan/create_plan_bloc.dart';
 import 'get_education/get_education.dart';
 import 'get_plan/get_plan_bloc.dart';
 import 'get_section_progress/get_section_progress_bloc.dart';
+import 'request_booking/request_booking_bloc.dart';
+import 'request_chat/request_chat_bloc.dart';
 import 'section/assumptions/assumptions_bloc.dart';
 import 'section/family_support/family_support_bloc.dart';
 import 'section/onboarding/onboarding_bloc.dart';
@@ -81,5 +84,13 @@ final Map<Type, Object Function(Key key)> blocConstructors = {
   AccountTabBloc: (Key key) => AccountTabBloc(
     key,
     userInteractor: Injection().getIt<UserInteractor>(),
+  ),
+  RequestBookingBloc: (Key key) => RequestBookingBloc(
+    key,
+    expertInteractor: Injection().getIt<ExpertInteractor>(),
+  ),
+  RequestChatBloc: (Key key) => RequestChatBloc(
+    key,
+    expertInteractor: Injection().getIt<ExpertInteractor>(),
   ),
 };

@@ -11,8 +11,7 @@ class PlanInteractorImpl implements PlanInteractor {
 
   PlanInteractorImpl({
     required PlanRepository planRepository,
-  }) :
-        _planRepository = planRepository;
+  }) : _planRepository = planRepository;
 
   @override
   Future<PlanModel?> getCurrentPlan() async {

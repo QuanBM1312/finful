@@ -1,5 +1,7 @@
 import 'package:finful_app/app/constants/icons.dart';
 import 'package:finful_app/app/constants/images.dart';
+import 'package:finful_app/app/constants/key/BlocConstants.dart';
+import 'package:finful_app/app/presentation/blocs/request_booking/request_booking.dart';
 import 'package:finful_app/app/presentation/journey/schedule_expert/schedule_expert_router.dart';
 import 'package:finful_app/app/presentation/widgets/app_button/FinfulButton.dart';
 import 'package:finful_app/app/presentation/widgets/app_image/FinfulImage.dart';
@@ -9,11 +11,13 @@ import 'package:finful_app/app/theme/dimens.dart';
 import 'package:finful_app/common/constants/dimensions.dart';
 import 'package:finful_app/common/widgets/app_bar/finful_app_bar.dart';
 import 'package:finful_app/common/widgets/app_icon/app_icon.dart';
+import 'package:finful_app/core/bloc/base/bloc_manager.dart';
 import 'package:finful_app/core/extension/extension.dart';
 import 'package:finful_app/core/localization/l10n.dart';
 import 'package:finful_app/core/presentation/base_screen_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class _InfoTile extends StatelessWidget {
   const _InfoTile({
@@ -219,7 +223,6 @@ class _TransferInfoView extends StatelessWidget {
   }
 }
 
-
 class ScheduleExpertScreen extends StatefulWidget {
   const ScheduleExpertScreen({super.key});
 
@@ -260,7 +263,38 @@ class _ScheduleExpertScreenState extends State<ScheduleExpertScreen>
   }
 
   void _onSubmitPressed() {
+    final inputValid = _formKey.currentState!.validate();
+    if (!inputValid) return;
 
+    final finalName = _nameController.text.trim();
+    final finalPhone = _phoneController.text.trim();
+    BlocManager().event<RequestBookingBloc>(
+      BlocConstants.createPlan,
+      RequestBookingStarted(
+        name: finalName,
+        phoneNumber: finalPhone,
+      ),
+    );
+  }
+
+  String? _onNameValidator(String? name) {
+    if (name == null) {
+      return L10n.of(context).translate('request_booking_input_empty');
+    }
+    if (name.trim().isEmpty) {
+      return L10n.of(context).translate('request_booking_input_empty');
+    }
+    return null;
+  }
+
+  String? _onPhoneValidator(String? phone) {
+    if (phone == null) {
+      return L10n.of(context).translate('request_booking_input_empty');
+    }
+    if (phone.trim().isEmpty) {
+      return L10n.of(context).translate('request_booking_input_empty');
+    }
+    return null;
   }
 
   Future<void> _onBackPressed() async {
@@ -268,138 +302,170 @@ class _ScheduleExpertScreenState extends State<ScheduleExpertScreen>
     await Future.delayed(Duration(milliseconds: 300));
     router.pop();
   }
+
+  Future<void> _processAfterSuccess() async {
+    _handleUnFocus();
+    await Future.delayed(Duration(milliseconds: 300));
+    router.gotoBookingReceivedRequest();
+  }
+
+  void _requestBookingBlocListener(BuildContext context, RequestBookingState state) {
+    if (state is RequestBookingSuccess) {
+      _processAfterSuccess();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: FinfulAppBar(
-        forceMaterialTransparency: true,
-        title: L10n.of(context)
-            .translate('schedule_expert_header_title'),
-        leadingIcon: AppSvgIcon(
-          IconConstants.icBack,
-          width: FinfulDimens.iconMd,
-          height: FinfulDimens.iconMd,
-          color: FinfulColor.white,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<RequestBookingBloc>(
+          create: (_) => RequestBookingBloc.instance(),
         ),
-        onLeadingPressed: _onBackPressed,
-      ),
-      body: GestureDetector(
-        onTap: _handleUnFocus,
-        child: Form(
-          key: _formKey,
-          child: FocusScope(
-            node: _focusScopeNode,
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Container(
-                    width: double.infinity,
-                    color: FinfulColor.disabled,
-                    height: Dimens.p_3,
-                  ),
-                ),
-                SliverPadding(
-                  padding: EdgeInsets.only(
-                    top: Dimens.p_15,
-                    left: FinfulDimens.md,
-                    right: FinfulDimens.md,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                    child: _InfoView(),
-                  ),
-                ),
-                SliverPadding(
-                  padding: EdgeInsets.only(
-                    top: Dimens.p_35,
-                    left: FinfulDimens.md,
-                    right: FinfulDimens.md,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          L10n.of(context)
-                              .translate('schedule_expert_info_name_input_label'),
-                          style: Theme.of(context).textTheme.headlineMedium,
+      ],
+      child: MultiBlocListener(
+          listeners: [
+            BlocListener<RequestBookingBloc, RequestBookingState>(
+              listener: _requestBookingBlocListener,
+            ),
+          ],
+          child: Scaffold(
+            resizeToAvoidBottomInset: true,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            appBar: FinfulAppBar(
+              forceMaterialTransparency: true,
+              title: L10n.of(context)
+                  .translate('schedule_expert_header_title'),
+              leadingIcon: AppSvgIcon(
+                IconConstants.icBack,
+                width: FinfulDimens.iconMd,
+                height: FinfulDimens.iconMd,
+                color: FinfulColor.white,
+              ),
+              onLeadingPressed: _onBackPressed,
+            ),
+            body: GestureDetector(
+              onTap: _handleUnFocus,
+              child: Form(
+                key: _formKey,
+                child: FocusScope(
+                  node: _focusScopeNode,
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Container(
+                          width: double.infinity,
+                          color: FinfulColor.disabled,
+                          height: Dimens.p_3,
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: Dimens.p_10,
-                          ),
-                          child: FinfulTextInput.single(
-                            controller: _nameController,
-                            focusNode: _nameNode,
-                            backgroundColor: FinfulColor.textFieldBgColor,
-                            height: FinfulTextInputHeight.md,
-                            hintText: L10n.of(context)
-                                .translate('schedule_expert_name_hint'),
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.go,
+                      ),
+                      SliverPadding(
+                        padding: EdgeInsets.only(
+                          top: Dimens.p_15,
+                          left: FinfulDimens.md,
+                          right: FinfulDimens.md,
+                        ),
+                        sliver: SliverToBoxAdapter(
+                          child: _InfoView(),
+                        ),
+                      ),
+                      SliverPadding(
+                        padding: EdgeInsets.only(
+                          top: Dimens.p_35,
+                          left: FinfulDimens.md,
+                          right: FinfulDimens.md,
+                        ),
+                        sliver: SliverToBoxAdapter(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                L10n.of(context)
+                                    .translate('schedule_expert_info_name_input_label'),
+                                style: Theme.of(context).textTheme.headlineMedium,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: Dimens.p_10,
+                                ),
+                                child: FinfulTextInput.single(
+                                  controller: _nameController,
+                                  focusNode: _nameNode,
+                                  backgroundColor: FinfulColor.textFieldBgColor,
+                                  height: FinfulTextInputHeight.md,
+                                  hintText: L10n.of(context)
+                                      .translate('schedule_expert_name_hint'),
+                                  validator: _onNameValidator,
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.go,
+                                ),
+                              ),
+                              const SizedBox(height: Dimens.p_25),
+                              Text(
+                                L10n.of(context)
+                                    .translate('schedule_expert_info_phone_input_label'),
+                                style: Theme.of(context).textTheme.headlineMedium,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: Dimens.p_10,
+                                ),
+                                child: FinfulTextInput.single(
+                                  controller: _phoneController,
+                                  focusNode: _phoneNode,
+                                  backgroundColor: FinfulColor.textFieldBgColor,
+                                  height: FinfulTextInputHeight.md,
+                                  hintText: L10n.of(context)
+                                      .translate('schedule_expert_phone_hint'),
+                                  validator: _onPhoneValidator,
+                                  keyboardType: TextInputType.phone,
+                                  textInputAction: TextInputAction.done,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: Dimens.p_25),
-                        Text(
-                          L10n.of(context)
-                              .translate('schedule_expert_info_phone_input_label'),
-                          style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                      SliverPadding(
+                        padding: EdgeInsets.only(
+                          top: Dimens.p_25,
+                          left: FinfulDimens.md,
+                          right: FinfulDimens.md,
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: Dimens.p_10,
-                          ),
-                          child: FinfulTextInput.single(
-                            controller: _phoneController,
-                            focusNode: _phoneNode,
-                            backgroundColor: FinfulColor.textFieldBgColor,
-                            height: FinfulTextInputHeight.md,
-                            hintText: L10n.of(context)
-                                .translate('schedule_expert_phone_hint'),
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.done,
+                        sliver: SliverToBoxAdapter(
+                          child: _TransferInfoView(),
+                        ),
+                      ),
+                      SliverPadding(
+                        padding: EdgeInsets.only(
+                          top: Dimens.p_54,
+                          left: FinfulDimens.md,
+                          right: FinfulDimens.md,
+                        ),
+                        sliver: SliverToBoxAdapter(
+                          child: BlocBuilder<RequestBookingBloc, RequestBookingState>(
+                            builder: (_, state) {
+                              return FinfulButton.secondary(
+                                isLoading: state is RequestBookingInProgress,
+                                title: L10n.of(context)
+                                    .translate('schedule_expert_submit_request'),
+                                onPressed: _onSubmitPressed,
+                              );
+                            },
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: Dimens.p_14 + context.queryPaddingBottom,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                SliverPadding(
-                  padding: EdgeInsets.only(
-                    top: Dimens.p_25,
-                    left: FinfulDimens.md,
-                    right: FinfulDimens.md,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                    child: _TransferInfoView(),
-                  ),
-                ),
-                SliverPadding(
-                  padding: EdgeInsets.only(
-                    top: Dimens.p_54,
-                    left: FinfulDimens.md,
-                    right: FinfulDimens.md,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                    child: FinfulButton.secondary(
-                      title: L10n.of(context)
-                          .translate('schedule_expert_submit_request'),
-                      onPressed: () {
-
-                      },
-                    ),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: Dimens.p_14 + context.queryPaddingBottom,
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
       ),
     );
   }

@@ -33,7 +33,7 @@ class _RootAppState extends State<RootApp> {
   }
 
 
-  void _showMessageStateListener(
+  void _showMessageBlocListener(
       BuildContext context,
       ShowMessageState state,
       ) {
@@ -107,7 +107,7 @@ class _RootAppState extends State<RootApp> {
                 return MultiBlocListener(
                   listeners: [
                     BlocListener<ShowMessageBloc, ShowMessageState>(
-                      listener: _showMessageStateListener,
+                      listener: _showMessageBlocListener,
                     ),
                     BlocListener<StoredDraftBloc, StoredDraftState>(
                       listener: (_, state) {},
