@@ -1,4 +1,4 @@
-package com.example.finful_app
+package com.finful.customerapp
 
 import io.flutter.embedding.android.FlutterActivity
 
